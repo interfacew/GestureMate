@@ -1,0 +1,52 @@
+[
+    {
+        "id":"1",
+        "name":"prepare start calc",
+        "data_type":["left_hand"],
+        "match_data":"D:\\sjtu\\project\\continus\\data\\hand1.json",
+        "command":"",
+        "sensetive":5,
+        "start":true,
+        "next_tasks":[{"operator":"stop","id":"1"},{"operator":"start","id":"2"},{"operator":"start","id":"3"}]
+    },
+    {
+        "id":"2",
+        "name":"start calc",
+        "data_type":"time",
+        "match_data":10000,
+        "command":"start calc",
+        "sensetive":3,
+        "start":false,
+        "next_tasks":[{"operator":"stop","id":"2"},{"operator":"stop","id":"3"},{"operator":"start","id":"4"}]
+    },
+    {
+        "id":"3",
+        "name":"abort start",
+        "data_type":["right_hand"],
+        "match_data":"D:\\sjtu\\project\\continus\\data\\hand2.json",
+        "command":"",
+        "sensetive":3,
+        "start":false,
+        "next_tasks":[{"operator":"stop","id":"2"},{"operator":"stop","id":"3"},{"operator":"start","id":"1"}]
+    },
+    {
+        "id":"4",
+        "name":"close calc",
+        "data_type":["right_hand"],
+        "match_data":"D:\\sjtu\\project\\continus\\data\\hand2.json",
+        "command":"taskkill /F /IM CalculatorApp.exe",
+        "sensetive":3,
+        "start":false,
+        "next_tasks":[{"operator":"stop","id":"4"},{"operator":"start","id":"1"}]
+    },
+    {
+        "id":"5",
+        "name":"open explorer",
+        "data_type":["right_hand"],
+        "match_data":"contain",
+        "command":"start explorer.exe",
+        "sensetive":3,
+        "start":true,
+        "next_tasks":[{"operator":"stop","id":"5"}]
+    }
+]
