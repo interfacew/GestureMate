@@ -7,7 +7,7 @@
 ### config
 The config file should be like this
 
-``` json
+``` c++
 [
     {
         "id":"id",// task id(unique)
