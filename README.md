@@ -1,13 +1,16 @@
-## Language
+## Update Log
 
--[English](#english)<br/>
--[中文](#中文)<br/>
+- 24/7/25 2:57(UTC+8) **Updated README into a more intuitive way**
+- To be done : Add English version
 
 ---
 
-### English
 
-//TO BE TRANSLATED
+## Language
+
+- [中文](#中文)
+- [English](#english)
+
 
 ---
 
@@ -147,3 +150,10 @@
     }
 ]
 ```
+---
+
+### English
+
+//TO BE TRANSLATED
+
+---
