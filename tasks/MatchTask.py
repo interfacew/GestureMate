@@ -29,6 +29,25 @@ class MatchTask(Task):
                 raise ValueError
             res.append([newx, newy, newz])
         return res
+    
+    def calcDelta(bodyPart,x,pose):
+        delta = 0.0
+        for part in bodyPart:
+            flag = False
+            for i in range(len(x[part])):
+                if x[part][i][0] > 1e-6 and x[part][i][1] > 1e-6 and x[part][i][2] > 1e-6:
+                    flag = True
+                    break
+            if not flag:
+                return -1
+            points = MatchTask.normalizePoints(x[part])
+            match = MatchTask.normalizePoints(pose[i][part])
+            if len(points) != len(match):
+                raise ValueError(
+                    f"Point count unmatch! Expect {len(match)} but find {len(points)}")
+            for i in range(len(points)):
+                delta += ((points[i][0]-match[i][0])**2+(points[i][1]-match[i][1])**2+(points[i][2]-match[i][2])**2)
+        return delta
 
     def __init__(self, controller: TaskController, id: str, bodyPart: list, poseFile: list, sensetive: list, nextTasks: list = [], start: bool = True, command: list = []):
         super().__init__(controller, id, "Match", nextTasks, start, command)
@@ -45,26 +64,9 @@ class MatchTask(Task):
     def _listen(self, x):
         print(f"poses {str(self.poseName)}:")
         for i in range(len(self.pose)):
-            delta = 0.0
-            for part in self.bodyPart[i]:
-                flag = False
-                for i in range(len(x[part])):
-                    if x[part][i][0] > 1e-6 and x[part][i][1] > 1e-6 and x[part][i][2] > 1e-6:
-                        flag = True
-                        break
-                if not flag:
-                    print("")
-                    return
-                points = MatchTask.normalizePoints(x[part])
-                match = MatchTask.normalizePoints(self.pose[i][part])
-                if len(points) != len(match):
-                    raise ValueError(
-                        f"Point count unmatch! Expect {len(match)} but find {len(points)}")
-                for i in range(len(points)):
-                    delta += ((points[i][0]-match[i][0])**2+(points[i]
-                              [1]-match[i][1])**2+(points[i][2]-match[i][2])**2)
+            delta = MatchTask.calcDelta(self.bodyPart[i],x,self.pose[i])
             print(f"\tpose {self.poseName[i]}, delta {delta:.5f} ", end="")
-            if delta < self.sensetive[i]:
+            if delta!=-1 and delta < self.sensetive[i]:
                 print("match")
                 self.process()
                 return

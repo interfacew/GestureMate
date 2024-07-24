@@ -1,31 +1,24 @@
 import mediapipe.python.solutions as sol
 
 
-def draw_styled_landmarks(image, results):
+def drawLandmarks(image, results):
     # Draw face connections
-    sol.drawing_utils.draw_landmarks(image, results.face_landmarks,
-                                     sol.holistic.FACEMESH_TESSELATION,
-                                     landmark_drawing_spec=None,
-                                     connection_drawing_spec=sol.drawing_styles.get_default_face_mesh_tesselation_style())
-    sol.drawing_utils.draw_landmarks(image, results.face_landmarks,
-                                     sol.holistic.FACEMESH_CONTOURS,
-                                     landmark_drawing_spec=None,
-                                     connection_drawing_spec=sol.drawing_styles.get_default_face_mesh_contours_style())
+    sol.drawing_utils.draw_landmarks(image, results.face_landmarks, sol.holistic.FACEMESH_TESSELATION,
+                                     landmark_drawing_spec=None, connection_drawing_spec=sol.drawing_styles.get_default_face_mesh_tesselation_style())
+    sol.drawing_utils.draw_landmarks(image, results.face_landmarks, sol.holistic.FACEMESH_CONTOURS,
+                                     landmark_drawing_spec=None, connection_drawing_spec=sol.drawing_styles.get_default_face_mesh_contours_style())
     # Draw pose connections
-    sol.drawing_utils.draw_landmarks(image, results.pose_landmarks,
-                                     sol.holistic.POSE_CONNECTIONS,
-                                     sol.drawing_styles.get_default_pose_landmarks_style())
+    sol.drawing_utils.draw_landmarks(
+        image, results.pose_landmarks, sol.holistic.POSE_CONNECTIONS, sol.drawing_styles.get_default_pose_landmarks_style())
     # Draw left hand connections
-    sol.drawing_utils.draw_landmarks(image, results.left_hand_landmarks,
-                                     sol.holistic.HAND_CONNECTIONS,
+    sol.drawing_utils.draw_landmarks(image, results.left_hand_landmarks, sol.holistic.HAND_CONNECTIONS,
                                      sol.drawing_styles.get_default_hand_landmarks_style(), sol.drawing_styles.get_default_hand_connections_style())
     # Draw right hand connections
-    sol.drawing_utils.draw_landmarks(image, results.right_hand_landmarks,
-                                     sol.holistic.HAND_CONNECTIONS,
+    sol.drawing_utils.draw_landmarks(image, results.right_hand_landmarks, sol.holistic.HAND_CONNECTIONS,
                                      sol.drawing_styles.get_default_hand_landmarks_style(), sol.drawing_styles.get_default_hand_connections_style())
 
 
-def extract_landmarks(x):
+def extractLandmarks(x):
     res = {}
     if not x.pose_landmarks is None:
         a = x.pose_landmarks.landmark

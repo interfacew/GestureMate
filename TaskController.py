@@ -1,7 +1,7 @@
 from tasks import *
 import json
 import cv2 as cv
-from utils import draw_styled_landmarks, extract_landmarks
+from utils import drawLandmarks, extractLandmarks
 import mediapipe.python.solutions as sol
 
 
@@ -74,8 +74,8 @@ class TaskController:
                     image.flags.writeable = True                   # Image is now writeable
                     # COLOR COVERSION RGB 2 BGR
                     image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
-                    draw_styled_landmarks(image, results)
-                    self.listen(extract_landmarks(results))
+                    drawLandmarks(image, results)
+                    self.listen(extractLandmarks(results))
                     cv.imshow('OpenCV Feed', image)
                 if cv.waitKey(20) & 0xFF == ord('q'):
                     break
