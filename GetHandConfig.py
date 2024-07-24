@@ -49,12 +49,12 @@ def getData():
                         0, 150), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
                 cv.imshow('OpenCV Feed', image)
-            if cv.waitKey(20) & 0xFF == ord('q'):
+            key=cv.waitKey(10)
+            if key & 0xFF == ord('q'):
                 break
-            if cv.waitKey(20) & 0xFF == ord('s'):
+            if key & 0xFF == ord('s'):
                 res = extractLandmarks(results)
                 alert1 = "saved to result, press s to recover"
-                break
         camera.release()
         cv.destroyAllWindows()
     with open("./output.json", "w") as f:
