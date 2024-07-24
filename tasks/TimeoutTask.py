@@ -1,12 +1,9 @@
 from datetime import datetime
-from TaskController import TaskController
-from Task import Task
-import sys
-sys.path.append("..")
+from .Task import Task
 
 
 class TimeoutTask(Task):
-    def __init__(self, controller: TaskController, id: str, timeout: int, loop: bool = False, nextTasks: list = [], start: bool = True, command: list = []):
+    def __init__(self, controller: object, id: str, timeout: int, loop: bool = False, nextTasks: list = [], start: bool = True, command: list = []):
         super().__init__(controller, id, "Timeout", nextTasks, start, command)
         self.activateTime = -1
         self.timeout = timeout

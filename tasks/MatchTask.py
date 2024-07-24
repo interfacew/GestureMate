@@ -1,8 +1,5 @@
 import json
-from TaskController import TaskController
-from Task import Task
-import sys
-sys.path.append("..")
+from .Task import Task
 
 
 class MatchTask(Task):
@@ -49,7 +46,7 @@ class MatchTask(Task):
                 delta += ((points[i][0]-match[i][0])**2+(points[i][1]-match[i][1])**2+(points[i][2]-match[i][2])**2)
         return delta
 
-    def __init__(self, controller: TaskController, id: str, bodyPart: list, poseFile: list, sensetive: list, nextTasks: list = [], start: bool = True, command: list = []):
+    def __init__(self, controller: object, id: str, bodyPart: list, poseFile: list, sensetive: list, nextTasks: list = [], start: bool = True, command: list = []):
         super().__init__(controller, id, "Match", nextTasks, start, command)
         self.bodyPart = bodyPart
         self.pose = []

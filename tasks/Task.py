@@ -1,11 +1,7 @@
 import os
-from TaskController import TaskController
-import sys
-sys.path.append("..")
-
 
 class Task:
-    def __init__(self, controller: TaskController, id: str, taskType: str, nextTasks: list = [], start: bool = True, command: list = []):
+    def __init__(self, controller: object, id: str, taskType: str, nextTasks: list = [], start: bool = True, command: list = []):
         self.controller = controller
         self.id = id
         self.taskType = taskType
@@ -33,5 +29,5 @@ class Task:
         raise NotImplementedError
 
     def listen(self, x):
-        print(f"listening {self.name} type {self.taskType}, ", end="")
+        print(f"listening {self.name} type {self.tas}, ", end="")
         self._listen(x)
