@@ -27,7 +27,7 @@ def extractLandmarks(x):
             b.append([a[i].x, a[i].y, a[i].z])
         res['body'] = b
     else:
-        res['body'] = [[0, 0, 0]]*33
+        res['body'] = None
     if not x.left_hand_landmarks is None:
         a = x.left_hand_landmarks.landmark
         b = []
@@ -35,7 +35,7 @@ def extractLandmarks(x):
             b.append([a[i].x, a[i].y, a[i].z])
         res['rightHand'] = b
     else:
-        res['rightHand'] = [[0, 0, 0]]*21
+        res['rightHand'] = None
     if not x.right_hand_landmarks is None:
         a = x.right_hand_landmarks.landmark
         b = []
@@ -43,7 +43,7 @@ def extractLandmarks(x):
             b.append([a[i].x, a[i].y, a[i].z])
         res['leftHand'] = b
     else:
-        res['leftHand'] = [[0, 0, 0]]*21
+        res['leftHand'] = None
     if not x.face_landmarks is None:
         a = x.face_landmarks.landmark
         b = []
@@ -51,5 +51,5 @@ def extractLandmarks(x):
             b.append([a[i].x, a[i].y, a[i].z])
         res['face'] = b
     else:
-        res['face'] = [[0, 0, 0]]*468
+        res['face'] = None
     return res

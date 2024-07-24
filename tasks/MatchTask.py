@@ -14,28 +14,23 @@ class MatchTask(Task):
             miny = min(miny, point[1])
             minz = min(minz, point[2])
         maxDelta = max(maxx-minx, maxy-miny)
-        if maxDelta <= 1e-6:
+        if maxDelta <= 1e-8:
             return [[0, 0, 0]]*len(points)
         for point in points:
             newx = (point[0]-(maxx+minx)/2)/maxDelta
             newy = (point[1]-(maxy+miny)/2)/maxDelta
             newz = (point[2]-(maxz+minz)/2)/(maxz-minz)/4
-            if newx < -0.5-1e-6 or newx > 0.5+1e-6 or newy < -0.5-1e-6 or newy > 0.5+1e-6 or newz < -0.125-1e-6 or newz > 0.125+1e-6:
+            if newx < -0.5-1e-8 or newx > 0.5+1e-8 or newy < -0.5-1e-8 or newy > 0.5+1e-8 or newz < -0.125-1e-8 or newz > 0.125+1e-8:
                 print([point[0], point[1], point[2], newx, newy, newz,
                       maxDelta, maxx, maxy, minx, miny, maxz, minz])
                 raise ValueError
             res.append([newx, newy, newz])
         return res
-    
+
     def calcDelta(bodyPart,x,pose):
         delta = 0.0
         for part in bodyPart:
-            flag = False
-            for i in range(len(x[part])):
-                if x[part][i][0] > 1e-6 and x[part][i][1] > 1e-6 and x[part][i][2] > 1e-6:
-                    flag = True
-                    break
-            if not flag:
+            if x[part]==None or pose[part]==None:
                 return -1
             points = MatchTask.normalizePoints(x[part])
             match = MatchTask.normalizePoints(pose[part])
