@@ -1,5 +1,5 @@
 import cv2 as cv
-from utils import drawLandmarks, extractLandmarks
+from Utils import drawLandmarks, extractLandmarks
 import mediapipe.python.solutions as sol
 import json
 from tasks import MatchTask

@@ -1,5 +1,5 @@
 import os
-from tasks import Task_controller
+from TaskController import TaskController
 import mediapipe.python.solutions as sol
 
 if __name__ == "__main__":
@@ -13,6 +13,6 @@ if __name__ == "__main__":
             pass
         exit(0)
 
-    controller = Task_controller()
-    controller.read_config(os.path.join(data_dir, "config.json"))
-    controller.start_listen()
+    controller = TaskController()
+    controller.readConfig(os.path.join(data_dir, "config.json"))
+    controller.startListen()
