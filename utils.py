@@ -1,5 +1,6 @@
 import mediapipe.python.solutions as sol
 
+
 def draw_styled_landmarks(image, results):
     # Draw face connections
     sol.drawing_utils.draw_landmarks(image, results.face_landmarks,
@@ -17,45 +18,45 @@ def draw_styled_landmarks(image, results):
     # Draw left hand connections
     sol.drawing_utils.draw_landmarks(image, results.left_hand_landmarks,
                                      sol.holistic.HAND_CONNECTIONS,
-                                     sol.drawing_styles.get_default_hand_landmarks_style(),sol.drawing_styles.get_default_hand_connections_style())
+                                     sol.drawing_styles.get_default_hand_landmarks_style(), sol.drawing_styles.get_default_hand_connections_style())
     # Draw right hand connections
     sol.drawing_utils.draw_landmarks(image, results.right_hand_landmarks,
                                      sol.holistic.HAND_CONNECTIONS,
-                                     sol.drawing_styles.get_default_hand_landmarks_style(),sol.drawing_styles.get_default_hand_connections_style())
+                                     sol.drawing_styles.get_default_hand_landmarks_style(), sol.drawing_styles.get_default_hand_connections_style())
+
 
 def extract_landmarks(x):
-    res={}
+    res = {}
     if not x.pose_landmarks is None:
-        a=x.pose_landmarks.landmark
-        b=[]
+        a = x.pose_landmarks.landmark
+        b = []
         for i in range(len(a)):
-            b.append([a[i].x,a[i].y,a[i].z])
-        res['body']=b
+            b.append([a[i].x, a[i].y, a[i].z])
+        res['body'] = b
     else:
-        res['body']=[[0,0,0]]*33
+        res['body'] = [[0, 0, 0]]*33
     if not x.left_hand_landmarks is None:
-        a=x.left_hand_landmarks.landmark
-        b=[]
+        a = x.left_hand_landmarks.landmark
+        b = []
         for i in range(len(a)):
-            b.append([a[i].x,a[i].y,a[i].z])
-        res['rightHand']=b
+            b.append([a[i].x, a[i].y, a[i].z])
+        res['rightHand'] = b
     else:
-        res['rightHand']=[[0,0,0]]*21
+        res['rightHand'] = [[0, 0, 0]]*21
     if not x.right_hand_landmarks is None:
-        a=x.right_hand_landmarks.landmark
-        b=[]
+        a = x.right_hand_landmarks.landmark
+        b = []
         for i in range(len(a)):
-            b.append([a[i].x,a[i].y,a[i].z])
-        res['leftHand']=b
+            b.append([a[i].x, a[i].y, a[i].z])
+        res['leftHand'] = b
     else:
-        res['leftHand']=[[0,0,0]]*21
+        res['leftHand'] = [[0, 0, 0]]*21
     if not x.face_landmarks is None:
-        a=x.face_landmarks.landmark
-        b=[]
+        a = x.face_landmarks.landmark
+        b = []
         for i in range(len(a)):
-            b.append([a[i].x,a[i].y,a[i].z])
-        res['face']=b
+            b.append([a[i].x, a[i].y, a[i].z])
+        res['face'] = b
     else:
-        res['face']=[[0,0,0]]*468
+        res['face'] = [[0, 0, 0]]*468
     return res
-
