@@ -1,23 +1,4 @@
 import mediapipe.python.solutions as sol
-def normalize_points(points):
-    res=[]
-    maxx,maxy,minx,miny=-1,-1,1,1
-    for point in points:
-        maxx=max(maxx,point[0])
-        maxy=max(maxy,point[1])
-        minx=min(minx,point[0])
-        miny=min(miny,point[1])
-    max_delta=max(maxx-minx,maxy-miny)
-    if max_delta<=1e-5:
-        return [[0,0]]*21
-    for point in points:
-        newx=(point[0]-(maxx+minx)/2)/max_delta
-        newy=(point[1]-(maxy+miny)/2)/max_delta
-        if newx<-0.5-1e-6 or newx>0.5+1e-6 or newy<-0.5-1e-6 or newy>0.5+1e-6:
-            print([point[0],point[1],newx,newy,max_delta,maxx,maxy,minx,miny])
-            raise ValueError
-        res.append([newx,newy])
-    return res
 
 def draw_styled_landmarks(image, results):
     # Draw face connections
@@ -49,25 +30,25 @@ def extract_landmarks(x):
         b=[]
         for i in range(len(a)):
             b.append([a[i].x,a[i].y,a[i].z])
-        res['pose']=b
+        res['body']=b
     else:
-        res['pose']=[[0,0,0]]*33
+        res['body']=[[0,0,0]]*33
     if not x.left_hand_landmarks is None:
         a=x.left_hand_landmarks.landmark
         b=[]
         for i in range(len(a)):
             b.append([a[i].x,a[i].y,a[i].z])
-        res['right_hand']=b
+        res['rightHand']=b
     else:
-        res['right_hand']=[[0,0,0]]*21
+        res['rightHand']=[[0,0,0]]*21
     if not x.right_hand_landmarks is None:
         a=x.right_hand_landmarks.landmark
         b=[]
         for i in range(len(a)):
             b.append([a[i].x,a[i].y,a[i].z])
-        res['left_hand']=b
+        res['leftHand']=b
     else:
-        res['left_hand']=[[0,0,0]]*21
+        res['leftHand']=[[0,0,0]]*21
     if not x.face_landmarks is None:
         a=x.face_landmarks.landmark
         b=[]
