@@ -12,7 +12,7 @@ class MatchTask(Task):
             maxz = max(maxz, point[2])
             minx = min(minx, point[0])
             miny = min(miny, point[1])
-            maxz = min(minz, point[2])
+            minz = min(minz, point[2])
         maxDelta = max(maxx-minx, maxy-miny)
         if maxDelta <= 1e-6:
             return [[0, 0, 0]]*len(points)
