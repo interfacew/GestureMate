@@ -38,7 +38,7 @@ class MatchTask(Task):
             if not flag:
                 return -1
             points = MatchTask.normalizePoints(x[part])
-            match = MatchTask.normalizePoints(pose[i][part])
+            match = MatchTask.normalizePoints(pose[part])
             if len(points) != len(match):
                 raise ValueError(
                     f"Point count unmatch! Expect {len(match)} but find {len(points)}")
