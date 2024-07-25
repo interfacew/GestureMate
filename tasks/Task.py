@@ -1,5 +1,6 @@
 import os
 
+
 class Task:
     def __init__(self, controller: object, id: str, taskType: str, nextTasks: list = [], start: bool = True, command: list = []):
         self.controller = controller
@@ -15,10 +16,27 @@ class Task:
     def deactivate(self):
         pass
 
-    def process(self):
+    def process(self, x):
         print(f"processing {self.id}")
+        x = str(x).replace(' ', '')
         for c in self.command:
-            os.system(c)
+            res = ""
+            last = ''
+            for i in c:
+                if i != '%':
+                    if last == '%':
+                        last = ''
+                        if i == 's':
+                            res += x
+                            continue
+                        elif i == '%':
+                            res += '%'
+                            continue
+                        else:
+                            raise ValueError
+                    res += i
+                last = i
+            os.system(res)
         for i in self.next_tasks:
             if i['operate'] == 'start':
                 self.controller.activate(i['id'])

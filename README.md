@@ -15,10 +15,13 @@
 [
     // task 1
     {
-        "type":"type",// 任务类型
-        "id":"id",// 任务id(唯一)
+        "type":"type", // 任务类型
+        "id":"id", // 任务id(唯一)
         "start":true/false, // 任务是否初始启动
-        "command":"", // 运行的命令(可为空字符串)
+        "command":[ // 满足条件运行的命令(可为空数组)
+            "", // 按顺序运行的命令(可为空字符串)
+            ...
+        ],
         "next_tasks":[ // 运行指令之后对任务激活进行修改
             {
                 "operate":"start"/"stop", // 启动/停止任务
@@ -28,11 +31,15 @@
         ],
         ...
     },
+    // task 2
     ...
 ]
 ```
 
-你可以查看`data_example`，那里提供了一个示例
+你可以查看`data_example`，那里提供了一个示例  
+你可以在命令中使用`%s`，他们会被替换成识别到的姿势位置  
+替换后为一个无空格`json`文件，与`python GetHandConfig.py`生成的`output.json`格式相同  
+如需原始的`%`，请使用`%%`
 
 ### 任务类型
 
@@ -49,25 +56,28 @@
 
 ```c++
 {
-    "type":"match",// 任务类型
-    "id":"id",// 任务id(唯一)
+    "type":"match", // 任务类型
+    "id":"id", // 任务id(唯一)
     "bodyPart":[
-        "bodyPart1", // 需要识别的部位，与poseFile一一对应
-        "bodyPart2",
+        ["bodyPart1","bodyPart2",...], // 需要识别的部位，与poseFile一一对应
+        ["bodyPart1","bodyPart2",...] // bodyPart 为 ["face","leftHand","rightHand","body"] 其一
         ...
     ],
     "poseFile": [
-        "path-to-json1",// 匹配数据路径
+        "path-to-json1", // 匹配数据路径
         "path-to-json2",
         ...
     ],
     "sensetive": [
-        0.01,// 检测敏感度，与poseFile一一对应
+        0.01, // 检测敏感度，与poseFile一一对应
         0.01,
         ...
     ],
     "start":true/false, // 任务是否初始启动
-    "command":"", // 运行的命令(可为空字符串)
+    "command":[ // 满足条件运行的命令(可为空数组)
+        "", // 按顺序运行的命令(可为空字符串)
+        ...
+    ],
     "next_tasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
@@ -87,12 +97,15 @@
 
 ```c++
 {
-    "type":"timeout",// 任务类型
-    "id":"id",// 任务id(唯一)
+    "type":"timeout", // 任务类型
+    "id":"id", // 任务id(唯一)
     "timeout":time, // 时间(整数，毫秒)
     "loop":true/false, // 是否循环
     "start":true/false, // 任务是否初始启动
-    "command":"", // 运行的命令
+    "command":[ // 满足条件运行的命令(可为空数组)
+        "", // 按顺序运行的命令(可为空字符串)
+        ...
+    ],
     "next_tasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
@@ -112,15 +125,18 @@
 
 ```c++
 {
-    "type":"detect",// 任务类型
-    "id":"id",// 任务id(唯一)
+    "type":"detect", // 任务类型
+    "id":"id", // 任务id(唯一)
     "bodyPart":[
         "bodyPart1", // 需要识别的部位
-        "bodyPart2",
+        "bodyPart2", // bodyPart 为 ["face","leftHand","rightHand","body"] 其一
         ...
     ],
     "start":true/false, // 任务是否初始启动
-    "command":"", // 运行的命令(可为空字符串)
+    "command":[ // 满足条件运行的命令(可为空数组)
+        "", // 按顺序运行的命令(可为空字符串)
+        ...
+    ],
     "next_tasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务

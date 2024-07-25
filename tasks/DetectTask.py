@@ -9,8 +9,8 @@ class DetectTask(Task):
     def _listen(self, x):
         print(f"detect {self.bodyPart}")
         for part in self.bodyPart:
-            if x[part]==None:
+            if x[part] == None:
                 print("")
                 return
         print("")
-        self.process()
+        self.process(x)

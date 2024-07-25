@@ -49,7 +49,7 @@ def getData():
                         0, 150), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
                 cv.imshow('OpenCV Feed', image)
-            key=cv.waitKey(10)
+            key = cv.waitKey(10)
             if key & 0xFF == ord('q'):
                 break
             if key & 0xFF == ord('s'):

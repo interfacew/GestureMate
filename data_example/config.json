@@ -6,7 +6,7 @@
             "leftHand"
         ],
         "start": true,
-        "command": "",
+        "command": [],
         "nextTasks": [
             {
                 "operate": "start",
@@ -29,7 +29,7 @@
             "rightHand"
         ],
         "start": true,
-        "command": "",
+        "command": [],
         "nextTasks": [
             {
                 "operate": "start",
@@ -49,7 +49,12 @@
         "type": "match",
         "id": "match left hand pose",
         "bodyPart": [
-            "leftHand"
+            [
+                "leftHand"
+            ],
+            [
+                "leftHand"
+            ]
         ],
         "poseFile": [
             "./hand1.json",
@@ -82,7 +87,9 @@
         "timeout": 10000,
         "loop": false,
         "start": false,
-        "command": "start calc",
+        "command": [
+            "start calc"
+        ],
         "nextTasks": [
             {
                 "operate": "stop",
@@ -94,7 +101,9 @@
         "type": "match",
         "id": "match right hand pose",
         "bodyPart": [
-            "rightHand"
+            [
+                "rightHand"
+            ]
         ],
         "poseFile": [
             "./hand1.json"
@@ -103,7 +112,7 @@
             1
         ],
         "start": false,
-        "command": "",
+        "command": [],
         "nextTasks": [
             {
                 "operate": "stop",

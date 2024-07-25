@@ -19,7 +19,7 @@ class TimeoutTask(Task):
         print(
             f"time last {self.timeout-(datetime.now().timestamp()*1000-self.activateTime)}")
         if datetime.now().timestamp()*1000-self.activateTime >= self.timeout:
-            self.process()
+            self.process(x)
             self.controller.deactivateTask(self.id)
             if self.loop:
                 self.controller.activateTask(self.id)
