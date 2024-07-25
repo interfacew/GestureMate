@@ -97,11 +97,9 @@
             "rightHand"
         ],
         "poseFile": [
-            "./hand1.json",
-            "./hand2.json"
+            "./hand1.json"
         ],
         "sensetive": [
-            1,
             1
         ],
         "start": false,
