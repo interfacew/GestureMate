@@ -65,7 +65,7 @@
             1
         ],
         "start": false,
-        "command": "",
+        "command": [],
         "nextTasks": [
             {
                 "operate": "stop",
