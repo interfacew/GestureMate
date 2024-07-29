@@ -1,5 +1,6 @@
 import os
 from TaskController import TaskController
+from ValidateConfig import ValidateConfig
 import mediapipe.python.solutions as sol
 
 if __name__ == "__main__":
@@ -13,6 +14,9 @@ if __name__ == "__main__":
             pass
         exit(0)
 
+    if not ValidateConfig(os.path.join(data_dir, "config.json")):
+        exit(0)
+    
     controller = TaskController()
     controller.readConfig(os.path.join(data_dir, "config.json"))
     controller.startListen()
