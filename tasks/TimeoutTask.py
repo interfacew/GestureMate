@@ -3,11 +3,10 @@ from .Task import Task
 
 
 class TimeoutTask(Task):
-    def __init__(self, controller: object, id: str, timeout: int, loop: bool = False, nextTasks: list = [], start: bool = True):
+    def __init__(self, controller: object, id: str, timeout: int, nextTasks: list = [], start: bool = True):
         super().__init__(controller, id, "Timeout", nextTasks, start)
         self.activateTime = -1
         self.timeout = timeout
-        self.loop = loop
 
     def activate(self):
         self.activateTime = datetime.now().timestamp()*1000
@@ -20,6 +19,3 @@ class TimeoutTask(Task):
             f"time last {self.timeout-(datetime.now().timestamp()*1000-self.activateTime)}")
         if datetime.now().timestamp()*1000-self.activateTime >= self.timeout:
             self.process(x)
-            self.controller.deactivateTask(self.id)
-            if self.loop:
-                self.controller.activateTask(self.id)

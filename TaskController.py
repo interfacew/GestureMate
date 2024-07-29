@@ -15,19 +15,19 @@ class TaskController:
             if self.activate[i]:
                 self.tasks[i].listen(x)
 
-    def activateTask(self, id: str):
+    def activateTask(self, id: str, x):
         if not id in self.activate.keys():
             print(f"Unknown task id {id}")
             return
         self.activate[id] = True
-        self.tasks[id].activate()
+        self.tasks[id].activate(x)
 
-    def deactivateTask(self, id: str):
+    def deactivateTask(self, id: str, x):
         if not id in self.activate.keys():
             print(f"Unknown task id {id}")
             return
         self.activate[id] = False
-        self.tasks[id].deactivate()
+        self.tasks[id].deactivate(x)
 
     def removeTask(self, id: str):
         self.activate.pop(id)
@@ -56,7 +56,7 @@ class TaskController:
                                        task['sensetive'], task['nextTasks'], task['start'])
             elif taskType == "timeout":
                 taskObject = TimeoutTask(
-                    self, task['id'], task['timeout'], task['loop'], task['nextTasks'], task['start'])
+                    self, task['id'], task['timeout'], task['nextTasks'], task['start'])
             self.addTask(taskObject)
 
     def startListen(self):

@@ -32,6 +32,7 @@
 ]
 ```
 
+任务在满足条件后会自动停止自己的运作，如需要循环运行请在`next_tasks`中重新启动自身  
 ~~你可以查看`data_example`，那里提供了一个示例~~  
 这个`data_example`还未完成
 
@@ -118,7 +119,6 @@
     "type":"timeout", // 任务类型
     "id":"id", // 任务id(唯一)
     "timeout":time, // 时间(整数，毫秒)
-    "loop":true/false, // 是否循环
     "start":true/false, // 任务是否初始启动
     "next_tasks":[ // 运行指令之后对任务激活状态进行修改
         {

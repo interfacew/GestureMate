@@ -5,9 +5,9 @@ import os
 class CommandTask(Task):
     def __init__(self, controller: object, id: str, command: list, nextTasks: list = [], start: bool = True):
         super().__init__(controller, id, "Command", nextTasks, start)
-        self.command=command
+        self.command = command
 
-    def activate(self):
+    def activate(self, x):
         print(f"run command in task {self.id}")
         x = str(x).replace(' ', '')
         for c in self.command:
@@ -29,4 +29,4 @@ class CommandTask(Task):
                     res += i
                 last = i
             os.system(res)
-        self.controller.deactivateTask(self.id)
+        self.process(x)
