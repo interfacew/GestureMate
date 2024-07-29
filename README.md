@@ -96,6 +96,11 @@
         0.01,
         ...
     ],
+    "frames": [
+        30, // 连续多少帧检测到才运行，与poseFile一一对应
+        20,
+        ...
+    ],
     "start":true/false, // 任务是否初始启动
     "next_tasks":[ // 运行指令之后对任务激活状态进行修改
         {
@@ -146,6 +151,7 @@
         "bodyPart2", // bodyPart 为 ["face","leftHand","rightHand","body"] 其一
         ...
     ],
+    "frames":frames, // 连续多少帧检测到才运行
     "start":true/false, // 任务是否初始启动
     "next_tasks":[ // 运行指令之后对任务激活状态进行修改
         {

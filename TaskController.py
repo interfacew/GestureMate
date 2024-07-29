@@ -50,10 +50,10 @@ class TaskController:
                     self, task['id'], task['command'], task['nextTasks'], task['start'])
             elif taskType == "detect":
                 taskObject = DetectTask(
-                    self, task['id'], task['bodyPart'], task['nextTasks'], task['start'])
+                    self, task['id'], task['bodyPart'], task['frames'], task['nextTasks'], task['start'])
             elif taskType == "match":
                 taskObject = MatchTask(self, task['id'], task['bodyPart'], task['poseFile'],
-                                       task['sensetive'], task['nextTasks'], task['start'])
+                                       task['sensetive'], task['frames'], task['nextTasks'], task['start'])
             elif taskType == "timeout":
                 taskObject = TimeoutTask(
                     self, task['id'], task['timeout'], task['nextTasks'], task['start'])
