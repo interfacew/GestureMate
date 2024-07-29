@@ -9,10 +9,10 @@ class Task:
         self.nextTasks = nextTasks
         self.start = start
 
-    def activate(self):
+    def activate(self, x):
         pass
 
-    def deactivate(self):
+    def deactivate(self, x):
         pass
 
     def process(self, x):
