@@ -222,4 +222,13 @@ def ValidateConfig(path):
     print(f"Total: {Count} Errors")
     return Count==0
 
+if __name__ == "__main__":
+    data_dir = r".\data"
+    if not os.path.exists(data_dir):
+        print("folder not found")
+        exit(0)
+    if not os.path.exists(os.path.join(data_dir, "config.json")):
+        print("file not found")
+        exit(0)
+    ValidateConfig(os.path.join(data_dir, "config.json"))
 
