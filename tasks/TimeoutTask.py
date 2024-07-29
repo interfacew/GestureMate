@@ -3,8 +3,8 @@ from .Task import Task
 
 
 class TimeoutTask(Task):
-    def __init__(self, controller: object, id: str, timeout: int, loop: bool = False, nextTasks: list = [], start: bool = True, command: list = []):
-        super().__init__(controller, id, "Timeout", nextTasks, start, command)
+    def __init__(self, controller: object, id: str, timeout: int, loop: bool = False, nextTasks: list = [], start: bool = True):
+        super().__init__(controller, id, "Timeout", nextTasks, start)
         self.activateTime = -1
         self.timeout = timeout
         self.loop = loop

@@ -42,8 +42,8 @@ class MatchTask(Task):
                           [1]-match[i][1])**2+(points[i][2]-match[i][2])**2)
         return delta
 
-    def __init__(self, controller: object, id: str, bodyPart: list, poseFile: list, sensetive: list, nextTasks: list = [], start: bool = True, command: list = []):
-        super().__init__(controller, id, "Match", nextTasks, start, command)
+    def __init__(self, controller: object, id: str, bodyPart: list, poseFile: list, sensetive: list, nextTasks: list = [], start: bool = True):
+        super().__init__(controller, id, "Match", nextTasks, start)
         self.bodyPart = bodyPart
         self.pose = []
         self.poseName = []

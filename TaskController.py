@@ -45,15 +45,18 @@ class TaskController:
             config = json.loads(f.read())
         for task in config:
             taskType = task['type']
-            if taskType == "detect":
+            if taskType == "command":
                 taskObject = DetectTask(
-                    self, task['id'], task['bodyPart'], task['nextTasks'], task['start'], task['command'])
+                    self, task['id'], task['command'], task['nextTasks'], task['start'])
+            elif taskType == "detect":
+                taskObject = DetectTask(
+                    self, task['id'], task['bodyPart'], task['nextTasks'], task['start'])
             elif taskType == "match":
                 taskObject = MatchTask(self, task['id'], task['bodyPart'], task['poseFile'],
-                                       task['sensetive'], task['nextTasks'], task['start'], task['command'])
+                                       task['sensetive'], task['nextTasks'], task['start'])
             elif taskType == "timeout":
                 taskObject = TimeoutTask(
-                    self, task['id'], task['timeout'], task['loop'], task['nextTasks'], task['start'], task['command'])
+                    self, task['id'], task['timeout'], task['loop'], task['nextTasks'], task['start'])
             self.addTask(taskObject)
 
     def startListen(self):
