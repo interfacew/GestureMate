@@ -54,6 +54,7 @@ class MatchTask(Task):
             with open(file, "r") as f:
                 self.pose.append(json.loads(f.read()))
             self.poseName.append(file.split('/')[-1].split('\\')[-1])
+        self.count=[0]*len(self.pose)
 
     def activate(self, x):
         self.count=[0]*len(self.pose)

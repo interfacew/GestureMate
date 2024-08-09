@@ -6,6 +6,7 @@ class DetectTask(Task):
         super().__init__(controller, id, "Detect", nextTasks, start)
         self.bodyPart = bodyPart
         self.frames=frames
+        self.count=0
 
     def activate(self, x):
         self.count=0
