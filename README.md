@@ -18,7 +18,7 @@
         "type":"type", // 任务类型
         "id":"id", // 任务id(唯一)
         "start":true/false, // 任务是否初始启动
-        "next_tasks":[ // 运行指令之后对任务激活进行修改
+        "nextTasks":[ // 运行指令之后对任务激活进行修改
             {
                 "operate":"start"/"stop", // 启动/停止任务
                 "id":"id" // 目标任务id
@@ -32,7 +32,7 @@
 ]
 ```
 
-任务在满足条件后会自动停止自己的运作，如需要循环运行请在`next_tasks`中重新启动自身  
+任务在满足条件后会自动停止自己的运作，如需要循环运行请在`nextTasks`中重新启动自身  
 ~~你可以查看`data_example`，那里提供了一个示例~~  
 这个`data_example`还未完成
 
@@ -60,7 +60,7 @@
         ...
     ],
     "start":true/false, // 任务是否初始启动
-    "next_tasks":[ // 运行指令之后对任务激活状态进行修改
+    "nextTasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
             "id":"id" // 目标任务id
@@ -87,7 +87,7 @@
         ...
     ],
     "start":true/false, // 任务是否初始启动
-    "next_tasks":[ // 运行指令之后对任务激活状态进行修改
+    "nextTasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
             "id":"id" // 目标任务id
@@ -132,7 +132,7 @@
         ...
     ],
     "start":true/false, // 任务是否初始启动
-    "next_tasks":[ // 运行指令之后对任务激活状态进行修改
+    "nextTasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
             "id":"id" // 目标任务id
@@ -146,7 +146,7 @@
 
 #### 延时任务
 
-延时任务可以在被激活后延时一段时间执行，可以被其他任务的`next_tasks`打断  
+延时任务可以在被激活后延时一段时间执行，可以被其他任务的`nextTasks`打断  
 延时任务应如下编写：
 
 ```c++
@@ -155,7 +155,7 @@
     "id":"id", // 任务id(唯一)
     "timeout":time, // 时间(整数，毫秒)
     "start":true/false, // 任务是否初始启动
-    "next_tasks":[ // 运行指令之后对任务激活状态进行修改
+    "nextTasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
             "id":"id" // 目标任务id
@@ -183,7 +183,7 @@
     ],
     "frames":frames, // 连续多少帧检测到才运行
     "start":true/false, // 任务是否初始启动
-    "next_tasks":[ // 运行指令之后对任务激活状态进行修改
+    "nextTasks":[ // 运行指令之后对任务激活状态进行修改
         {
             "operate":"start"/"stop", // 启动/停止任务
             "id":"id" // 目标任务id
