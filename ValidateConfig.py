@@ -187,7 +187,26 @@ def ValidateConfig(path):
                         except OSError as err:
                             print(f"Can't read file {file}: {err}")
                             Count += 1
-                        # TODO check points
+                        if points:
+                            if list(points.keys()) != ["face", "leftHand", "rightHand", "body"]:
+                                print(
+                                    f"Invalid points map {file}: missing keys")
+                                Count += 1
+                            elif not (len(points["face"]), len(points["leftHand"]), len(points["rightHand"]), len(points["body"])) == (478, 21, 21, 33):
+                                print(
+                                    f"Invalid points map {file}: unmatch lens")
+                                Count += 1
+                            else:
+                                flag = True
+                                for part in ["face", "leftHand", "rightHand", "body"]:
+                                    for point in points[part]:
+                                        if len(point) != 3:
+                                            flag = False
+                                            break
+                                if not flag:
+                                    print(
+                                        f"Invalid points map {file}: unknown points")
+                                    Count += 1
 
             if not 'sensetive' in task.keys():
                 print('missing key value "sensetive"')
