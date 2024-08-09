@@ -9,6 +9,7 @@ class DetectTask(Task):
 
     def activate(self, x):
         self.count=0
+        self.listen(x)
 
     def _listen(self, x):
         print(f"detect {self.bodyPart} ({self.count}/{self.frames})")

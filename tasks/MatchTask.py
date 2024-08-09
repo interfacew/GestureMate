@@ -57,6 +57,7 @@ class MatchTask(Task):
 
     def activate(self, x):
         self.count=[0]*len(self.pose)
+        self.listen(x)
 
     def _listen(self, x):
         print(f"poses {str(self.poseName)}:")
