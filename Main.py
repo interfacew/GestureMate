@@ -18,7 +18,7 @@ if __name__ == "__main__":
     sys.path.append(r"data")
     if not ValidateConfig("config.json"):
         exit(0)
-    
+
     controller = TaskController()
     controller.readConfig("config.json")
     controller.startListen()

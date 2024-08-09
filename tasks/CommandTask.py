@@ -29,8 +29,8 @@ class CommandTask(Task):
                             raise ValueError
                     command += i
                 last = i
-            res=os.system(command)
-            if res!=0:
+            res = os.system(command)
+            if res != 0:
                 print(f"Error when processing {command}")
                 cv2.destroyAllWindows()
                 exit(0)

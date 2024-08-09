@@ -8,10 +8,10 @@ class TimeoutTask(Task):
         self.activateTime = -1
         self.timeout = timeout
 
-    def activate(self,x):
+    def activate(self, x):
         self.activateTime = datetime.now().timestamp()*1000
 
-    def deactivate(self,x):
+    def deactivate(self, x):
         self.activateTime = -1
 
     def _listen(self, x):

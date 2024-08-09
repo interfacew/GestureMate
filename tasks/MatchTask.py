@@ -42,35 +42,36 @@ class MatchTask(Task):
                           [1]-match[i][1])**2+(points[i][2]-match[i][2])**2)
         return delta
 
-    def __init__(self, controller: object, id: str, bodyPart: list, poseFile: list, sensetive: list, frames: list,nextTasks: list = [], start: bool = True):
+    def __init__(self, controller: object, id: str, bodyPart: list, poseFile: list, sensetive: list, frames: list, nextTasks: list = [], start: bool = True):
         super().__init__(controller, id, "Match", nextTasks, start)
         self.bodyPart = bodyPart
         self.pose = []
         self.poseName = []
         self.sensetive = sensetive
-        self.frames=frames
+        self.frames = frames
         for file in poseFile:
             print(f"reading {file}")
             with open(file, "r") as f:
                 self.pose.append(json.loads(f.read()))
             self.poseName.append(file.split('/')[-1].split('\\')[-1])
-        self.count=[0]*len(self.pose)
+        self.count = [0]*len(self.pose)
 
     def activate(self, x):
-        self.count=[0]*len(self.pose)
+        self.count = [0]*len(self.pose)
         self.listen(x)
 
     def _listen(self, x):
         print(f"poses {str(self.poseName)}:")
         for i in range(len(self.pose)):
             delta = MatchTask.calcDelta(self.bodyPart[i], x, self.pose[i])
-            print(f"\tpose {self.poseName[i]}, delta {delta:.5f} ({self.count[i]}/{self.frames[i]})", end="")
+            print(
+                f"\tpose {self.poseName[i]}, delta {delta:.5f} ({self.count[i]}/{self.frames[i]})", end="")
             if delta != -1 and delta < self.sensetive[i]:
                 print("match")
-                self.count[i]+=1
-                if self.count[i]>=self.frames[i]:
+                self.count[i] += 1
+                if self.count[i] >= self.frames[i]:
                     self.process(x)
                     return
                 continue
             print("")
-            self.count[i]=0
+            self.count[i] = 0

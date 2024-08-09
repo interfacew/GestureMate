@@ -20,9 +20,9 @@ class Task:
         self.controller.deactivateTask(self.id, x)
         for i in self.nextTasks:
             if i['operate'] == 'start':
-                self.controller.activateTask(i['id'],x)
+                self.controller.activateTask(i['id'], x)
             if i['operate'] == 'stop':
-                self.controller.deactivateTask(i['id'],x)
+                self.controller.deactivateTask(i['id'], x)
 
     def _listen(self, x):
         raise NotImplementedError
