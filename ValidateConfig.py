@@ -57,31 +57,31 @@ def ValidateConfig(path):
                 print(f"value of key start shoud be a bool, not {task['start']} with type {type(task['start'])}")
                 Count+=1
 
-        if not 'next_tasks' in task.keys():
-            print(f'missing key value "next_tasks"')
+        if not 'nextTasks' in task.keys():
+            print(f'missing key value "nextTasks"')
             Count+=1
         else:
-            if type(task['next_tasks'])!=list:
-                print(f"value of key next_tasks shoud be a list, not {task['next_tasks']} with type {type(task['next_tasks'])}")
+            if type(task['nextTasks'])!=list:
+                print(f"value of key nextTasks shoud be a list, not {task['nextTasks']} with type {type(task['nextTasks'])}")
                 Count+=1
             else:
-                for j,nextTask in enumerate(task['next_tasks']):
+                for j,nextTask in enumerate(task['nextTasks']):
                     if type(nextTask)!=dict:
-                        print(f"next_tasks[{j}]: value in array next_tasks shoud be a dict, not {nextTask} with type {type(nextTask)}")
+                        print(f"nextTasks[{j}]: value in array nextTasks shoud be a dict, not {nextTask} with type {type(nextTask)}")
                         Count+=1
                     else:
                         if not 'operate' in nextTask.keys():
-                            print(f'next_tasks[{j}]: missing key value "operate"')
+                            print(f'nextTasks[{j}]: missing key value "operate"')
                             Count+=1
                             if not nextTask['operate'] in ['start','stop']:
-                                print(f"next_tasks[{j}]: Unknown operate {nextTask['operate']}")
+                                print(f"nextTasks[{j}]: Unknown operate {nextTask['operate']}")
                                 Count+=1
                         
                         if not 'id' in nextTask.keys():
-                            print(f'next_tasks[{j}]: missing key value "id"')
+                            print(f'nextTasks[{j}]: missing key value "id"')
                             Count+=1
                             if not nextTask['id'] in TaskId:
-                                print(f"next_tasks[{j}]: Unknown Id {nextTask['id']}")
+                                print(f"nextTasks[{j}]: Unknown Id {nextTask['id']}")
                                 Count+=1
 
         if not 'type' in task.keys():
