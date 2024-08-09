@@ -37,7 +37,7 @@ def ValidateConfig(path):
             print(f"task shoud be a dict, not {task} with type {type(task)}")
             Count+=1
             continue
-        
+
         if not 'id' in task.keys():
             print(f'missing key value "id"')
             Count+=1
@@ -76,7 +76,7 @@ def ValidateConfig(path):
                             if not nextTask['operate'] in ['start','stop']:
                                 print(f"nextTasks[{j}]: Unknown operate {nextTask['operate']}")
                                 Count+=1
-                        
+
                         if not 'id' in nextTask.keys():
                             print(f'nextTasks[{j}]: missing key value "id"')
                             Count+=1
@@ -125,7 +125,7 @@ def ValidateConfig(path):
                                 if not key in pyautogui.KEYBOARD_KEYS:
                                     print(f"keys[{j}][{k}]: unknown key {key}")
                                     Count+=1
-        
+
         if task['type']=='match':
             f1,f2,f3,f4=False,False,False,False
 
@@ -140,14 +140,14 @@ def ValidateConfig(path):
                     f1=True
                     for j,parts in enumerate(task['bodyPart']):
                         if type(parts)!=list:
-                            print(f"bodyPart[{j}]: value in array bodyPart shoud be a list, not {parts} with type {type(parts)}")    
+                            print(f"bodyPart[{j}]: value in array bodyPart shoud be a list, not {parts} with type {type(parts)}")
                             Count+=1
                         else:
                             for part in parts:
                                 if not part in ["face","leftHand","rightHand","body"]:
                                     print(f"bodypart[{j}]: Unknown part {part}")
                                     Count+=1
-                    
+
             if not 'poseFile' in task.keys():
                 print('missing key value "poseFile"')
                 Count+=1
@@ -185,7 +185,7 @@ def ValidateConfig(path):
                         if type(num)!=float and type(num)!=int:
                             print(f"sensetive[{j}]: value in array sensetive shoud be a float or int, not {num} with type {type(num)}")
                             Count+=1
-            
+
             if not 'frames' in task.keys():
                 print('missing key value "frames"')
                 Count+=1
@@ -199,12 +199,12 @@ def ValidateConfig(path):
                         if type(num)!=int:
                             print(f"frames[{j}]: value in array frames shoud be a int, not {num} with type {type(num)}")
                             Count+=1
-            
+
             if f1 and f2 and f3 and f4:
                 if not(len(task['poseFile'])==len(task['bodyPart']) and len(task['poseFile'])==len(task['sensetive'])and len(task['poseFile'])==len(task['frames'])):
                     print("len of poseFile, bodyPart, sensetive, frames unmatch")
                     Count+=1
-        
+
         if task['type']=='detect':
             if not 'bodyPart' in task.keys():
                 print('missing key value "bodyPart"')
@@ -217,19 +217,15 @@ def ValidateConfig(path):
                     if not part in ["face","leftHand","rightHand","body"]:
                         print(f"bodyPart[{j}]: Unknown part {part}")
                         Count+=1
-                    
+
             if not 'frames' in task.keys():
                 print('missing key value "frames"')
                 Count+=1
             else:
-                if type(task['frames'])!=list:
-                    print(f"value of key frames shoud be a list, not {task['frames']} with type {type(task['frames'])}")
+                if type(task['frames'])!=int:
+                    print(f"value of key frames shoud be a int, not {task['frames']} with type {type(task['frames'])}")
                     Count+=1
-                for j,num in enumerate(task['frames']):
-                    if type(num)!=int:
-                        print(f"frames[{j}]: value in array frames shoud be a int, not {num} with type {type(num)}")
-                        Count+=1
-        
+
         if task['type']=='timeout':
             if not 'timeout' in task.keys():
                 print('missing key value "timeout"')

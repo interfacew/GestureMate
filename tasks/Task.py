@@ -18,11 +18,11 @@ class Task:
     def process(self, x):
         print(f"processing {self.id}")
         self.controller.deactivateTask(self.id, x)
-        for i in self.next_tasks:
+        for i in self.nextTasks:
             if i['operate'] == 'start':
-                self.controller.activate(i['id'])
+                self.controller.activateTask(i['id'],x)
             if i['operate'] == 'stop':
-                self.controller.deactivate(i['id'])
+                self.controller.deactivateTask(i['id'],x)
 
     def _listen(self, x):
         raise NotImplementedError

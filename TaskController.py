@@ -11,6 +11,7 @@ class TaskController:
         self.activate = {}
 
     def listen(self, x):
+        print("\033[H\033[J")
         for i in self.tasks.keys():
             if self.activate[i]:
                 self.tasks[i].listen(x)
@@ -33,8 +34,8 @@ class TaskController:
         self.activate.pop(id)
 
     def addTask(self, task: Task):
-        self.tasks[id] = task
-        self.activate[id] = task.start
+        self.tasks[task.id] = task
+        self.activate[task.id] = task.start
 
     def clear(self):
         self.tasks = {}
@@ -46,7 +47,7 @@ class TaskController:
         for task in config:
             taskType = task['type']
             if taskType == "command":
-                taskObject = DetectTask(
+                taskObject = CommandTask(
                     self, task['id'], task['command'], task['nextTasks'], task['start'])
             elif taskType == "keypress":
                 taskObject = TimeoutTask(
