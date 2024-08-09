@@ -28,5 +28,5 @@ class Task:
         raise NotImplementedError
 
     def listen(self, x):
-        print(f"listening {self.name} type {self.tas}, ", end="")
+        print(f"listening {self.id} type {self.taskType}, ", end="")
         self._listen(x)
