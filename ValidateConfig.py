@@ -1,5 +1,6 @@
 import json
 import os
+import pyautogui
 
 def ValidateConfig(path):
     Count=0
@@ -105,6 +106,25 @@ def ValidateConfig(path):
                         if type(command)!=str:
                             print(f"command[{j}]: value in array command shoud be a str, not {command} with type {type(command)}")
                             Count+=1
+
+        if task['type']=='keypress':
+            if not 'keys' in task.keys():
+                print('missing key value "keys"')
+                Count+=1
+            else:
+                if type(task['keys'])!=list:
+                    print(f"value of key keys shoud be a list, not {task['keys']} with type {type(task['keys'])}")
+                    Count+=1
+                else:
+                    for j,keyset in enumerate(task['keys']):
+                        if type(keyset)!=list:
+                            print(f"keys[{j}]: value in array keys shoud be a list, not {keyset} with type {type(keyset)}")
+                            Count+=1
+                        else:
+                            for k,key in enumerate(keyset):
+                                if not key in pyautogui.KEYBOARD_KEYS:
+                                    print(f"keys[{j}][{k}]: unknown key {key}")
+                                    Count+=1
         
         if task['type']=='match':
             f1,f2,f3,f4=False,False,False,False
