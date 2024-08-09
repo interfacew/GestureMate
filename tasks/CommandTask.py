@@ -1,5 +1,6 @@
 from .Task import Task
 import os
+import cv2
 
 
 class CommandTask(Task):
@@ -9,24 +10,28 @@ class CommandTask(Task):
 
     def activate(self, x):
         print(f"run command in task {self.id}")
-        x = str(x).replace(' ', '')
+        _x = str(x).replace(' ', '')
         for c in self.command:
             print(f"\t running command {c}")
-            res = ""
+            command = ""
             last = ''
             for i in c:
                 if i != '%':
                     if last == '%':
                         last = ''
                         if i == 's':
-                            res += x
+                            command += _x
                             continue
                         elif i == '%':
-                            res += '%'
+                            command += '%'
                             continue
                         else:
                             raise ValueError
-                    res += i
+                    command += i
                 last = i
-            os.system(res)
+            res=os.system(command)
+            if res!=0:
+                print(f"Error when processing {command}")
+                cv2.destroyAllWindows()
+                exit(0)
         self.process(x)
