@@ -2,7 +2,6 @@ import os
 from TaskController import TaskController
 from ValidateConfig import ValidateConfig
 import mediapipe.python.solutions as sol
-import sys
 
 if __name__ == "__main__":
     data_dir = r".\data"
@@ -15,8 +14,8 @@ if __name__ == "__main__":
             pass
         exit(0)
 
-    sys.path.append(r"data")
-    if not ValidateConfig("config.json"):
+    os.chdir("./data")
+    if not ValidateConfig("./config.json"):
         exit(0)
 
     controller = TaskController()

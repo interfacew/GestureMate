@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import pyautogui
 
 
@@ -272,5 +271,5 @@ if __name__ == "__main__":
     if not os.path.exists(os.path.join(data_dir, "config.json")):
         print("file not found")
         exit(0)
-    sys.path.append(r"data")
+    os.chdir("./data")
     ValidateConfig("config.json")
