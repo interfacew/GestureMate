@@ -3,9 +3,13 @@ import json
 import cv2 as cv
 from Utils import drawLandmarks, extractLandmarks
 import mediapipe.python.solutions as sol
+import time
+from collections import deque
 
 
 class TaskController:
+    FPS_COUNT_FRAME=10
+
     def __init__(self):
         self.tasks = {}
         self.activate = {}
@@ -68,6 +72,7 @@ class TaskController:
         camera.set(cv.CAP_PROP_FRAME_WIDTH, 1920)
         camera.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)
         camera.set(cv.CAP_PROP_FPS, 60)
+        q=deque([],self.FPS_COUNT_FRAME)
         with sol.holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5, model_complexity=2) as holistic:
             while camera.isOpened():
                 ret, frame = camera.read()
@@ -83,7 +88,14 @@ class TaskController:
                     image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
                     drawLandmarks(image, results)
                     self.listen(extractLandmarks(results))
+
+                    now=time.time_ns()
+                    if len(q)>=self.FPS_COUNT_FRAME:
+                        last=q.pop()
+                        cv.putText(image,f"FPS: {self.FPS_COUNT_FRAME*1e9/(now-last)}",(10,10),cv.FONT_HERSHEY_COMPLEX,2.0,(255,0,0))
+
                     cv.imshow('OpenCV Feed', image)
+
                 if cv.waitKey(20) & 0xFF == ord('q'):
                     break
             camera.release()

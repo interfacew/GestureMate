@@ -1,6 +1,7 @@
 from .Task import Task
 import threading
 import subprocess
+import sys
 
 
 class CommandTask(Task):
@@ -32,14 +33,14 @@ class CommandTask(Task):
                     cmd += i
                 last = i
             try:
-                res = subprocess.call(cmd, shell=True, timeout=(
+                res = subprocess.run(cmd, shell=True,capture_output=True, timeout=(
                     None if timeout[i] == 0 else timeout[i]))
-            except TimeoutError:
-                print(f"Timeout when processing {cmd}")
+            except subprocess.TimeoutExpired:
+                print(f"Timeout when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
             except OSError:
-                print(f"Error when processing {cmd}")
+                print(f"Error when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
             if res.returncode != 0:
-                print(f"Error when processing {cmd}")
+                print(f"Error when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
 
     def activate(self, x):
         self.thread = threading.Thread(
