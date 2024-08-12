@@ -16,7 +16,7 @@ if __name__ == "__main__":
         exit(0)
 
     os.chdir("./data")
-    errlog = open("./command_error.log", "w", encoding='utf-8')
+    errlog = open("./error.log", "w", encoding='utf-8')
     sys.stderr = errlog
     if not ValidateConfig("./config.json"):
         exit(0)

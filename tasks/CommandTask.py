@@ -2,6 +2,7 @@ from .Task import Task
 import threading
 import subprocess
 import sys
+import json
 
 
 class CommandTask(Task):
@@ -13,7 +14,7 @@ class CommandTask(Task):
 
     def runCommand(self, command, timeout, x):
         print(f"run command in task {self.id}")
-        _x = str(x).replace(' ', '')
+        _x = json.dumps(x).replace(' ', '')
         for i, c in enumerate(command):
             print(f"\t running command {c}")
             cmd = ""
@@ -36,11 +37,11 @@ class CommandTask(Task):
                 res = subprocess.run(cmd, shell=True,capture_output=True, timeout=(
                     None if timeout[i] == 0 else timeout[i]))
             except subprocess.TimeoutExpired:
-                print(f"Timeout when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
+                print(f"[command] Timeout when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
             except OSError:
-                print(f"Error when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
+                print(f"[command] Error when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
             if res.returncode != 0:
-                print(f"Error when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
+                print(f"[command] Error when processing {cmd}\nstdout={res.stdout}\nstderr={res.stderr}",file=sys.stderr)
 
     def activate(self, x):
         self.thread = threading.Thread(
