@@ -48,7 +48,7 @@ class TaskController:
             taskType = task['type']
             if taskType == "command":
                 taskObject = CommandTask(
-                    self, task['id'], task['command'], task['nextTasks'], task['start'])
+                    self, task['id'], task['command'], task['timeout'], task['nextTasks'], task['start'])
             elif taskType == "keypress":
                 taskObject = TimeoutTask(
                     self, task['id'], task['keys'], task['nextTasks'], task['start'])

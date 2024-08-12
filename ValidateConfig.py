@@ -102,11 +102,13 @@ def ValidateConfig(path):
             continue
 
         if task['type'] == 'command':
+            f1, f2 = False, False
             if not 'command' in task.keys():
                 print('missing key value "command"')
                 Count += 1
             else:
                 if type(task['command']) != list:
+                    f1 = True
                     print(
                         f"value of key command shoud be a list, not {task['command']} with type {type(task['command'])}")
                     Count += 1
@@ -116,6 +118,32 @@ def ValidateConfig(path):
                             print(
                                 f"command[{j}]: value in array command shoud be a str, not {command} with type {type(command)}")
                             Count += 1
+
+            if not 'timeout' in task.keys():
+                print('missing key value "timeout"')
+                Count += 1
+            else:
+                if type(task['timeout']) != list:
+                    f2 = True
+                    print(
+                        f"value of key timeout shoud be a list, not {task['timeout']} with type {type(task['timeout'])}")
+                    Count += 1
+                else:
+                    for j, timeout in enumerate(task['timeout']):
+                        if type(timeout) != float and type(timeout) != int:
+                            print(
+                                f"timeout[{j}]: value in array timeout shoud be a float or int, not {timeout} with type {type(timeout)}")
+                            Count += 1
+                        else:
+                            if float(timeout) < 0:
+                                print(
+                                    f"timeout[{j}]: value in array timeout should be greater than 0")
+                            Count += 1
+
+            if f1 and f2:
+                if not len(task['command']) == len(task['timeout']):
+                    print("len of command, timeout unmatch")
+                    Count += 1
 
         if task['type'] == 'keypress':
             if not 'keys' in task.keys():
@@ -222,6 +250,11 @@ def ValidateConfig(path):
                         if type(num) != float and type(num) != int:
                             print(
                                 f"sensetive[{j}]: value in array sensetive shoud be a float or int, not {num} with type {type(num)}")
+                            Count += 1
+                        else:
+                            if float(num) < 0:
+                                print(
+                                    f"sensetive[{j}]: value in array sensetive should be greater than 0")
                             Count += 1
 
             if not 'frames' in task.keys():

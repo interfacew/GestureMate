@@ -4,3 +4,4 @@ data
 .vscode
 tasks/__pycache__
 output.json
+test
