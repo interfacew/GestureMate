@@ -31,22 +31,24 @@ class SocketSendTask(Task):
                 f"[socket] Can't connect to {self.ip}:{self.port}", file=sys.stderr)
             self.controller.deactivateTask(self.id, None)
 
-    def send(self,msg,retry):
-        if retry>self.MAX_RETRY:
-            print(f"[socket] Can't send message to {self.ip}:{self.port}", file=sys.stderr)
-            self.controller.deactivateTask(self.id, None)
+    def send(self,msg):
+        retry=0
         start = 0
         while start < len(msg):
             try:
                 l = self.socket.send(msg[start:])
             except:
                 print(f"[socket] Can't send message to {self.ip}:{self.port}", file=sys.stderr)
-                return
+                if msg != 'quit\0'.encode('ascii'):
+                    self.controller.deactivateTask(self.id, None)
             if l == 0:
-                self.socket.close()
-                self.connect()
-                self.send(msg,retry+1)
-            # print(f"[socket] send {start} to {start+l-1}",file=sys.stderr)
+                retry+=1
+                if retry > self.MAX_RETRY:
+                    print(f"[socket] Can't send message to {self.ip}:{self.port}", file=sys.stderr)
+                    if msg != 'quit\0'.encode('ascii'):
+                        self.controller.deactivateTask(self.id, None)
+            else:
+                retry=0
             start += l
 
     def _listen(self, x):
