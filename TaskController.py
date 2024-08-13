@@ -5,6 +5,7 @@ from Utils import drawLandmarks, extractLandmarks
 import mediapipe.python.solutions as sol
 import time
 from collections import deque
+import math
 
 
 class TaskController:
@@ -67,36 +68,42 @@ class TaskController:
                     self, task['id'], task['timeout'], task['nextTasks'], task['start'])
             self.addTask(taskObject)
 
-    def startListen(self):
+    def startListen(self,targetFPS,modelComplexity):
         camera = cv.VideoCapture(0, cv.CAP_DSHOW)
         camera.set(cv.CAP_PROP_FRAME_WIDTH, 1920)
         camera.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)
         camera.set(cv.CAP_PROP_FPS, 60)
-        q=deque([],self.FPS_COUNT_FRAME)
-        with sol.holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5, model_complexity=2) as holistic:
+        q=deque([],self.FPS_COUNT_FRAME+10)
+        framecnt=0
+        with sol.holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5, model_complexity=modelComplexity) as holistic:
             while camera.isOpened():
                 ret, frame = camera.read()
+                waitTime=1
                 if ret:
+                    start=time.time()*1e3
+
                     frame = frame[:, ::-1, :]
-                    # COLOR CONVERSION BGR 2 RGB
                     image = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
-                    image.flags.writeable = False                  # Image is no longer writeable
-                    # Make prediction
+                    image.flags.writeable = False
                     results = holistic.process(image)
-                    image.flags.writeable = True                   # Image is now writeable
-                    # COLOR COVERSION RGB 2 BGR
+                    image.flags.writeable = True
                     image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
                     drawLandmarks(image, results)
-                    self.listen(extractLandmarks(results))
 
-                    now=time.time_ns()
-                    if len(q)>=self.FPS_COUNT_FRAME:
+                    if framecnt>=self.FPS_COUNT_FRAME*3:
+                        self.listen(extractLandmarks(results))
+
+                    now=time.time()*1e3
+                    if framecnt>=self.FPS_COUNT_FRAME:
                         last=q.pop()
-                        cv.putText(image,f"FPS: {self.FPS_COUNT_FRAME*1e9/(now-last)}",(10,10),cv.FONT_HERSHEY_COMPLEX,2.0,(255,0,0))
+                        cv.putText(image,f"FPS: {self.FPS_COUNT_FRAME*1e3/(now-last):.3f}",(10,30),cv.FONT_HERSHEY_COMPLEX,1.0,(255,0,0),bottomLeftOrigin=False)
+                        waitTime=max(1,math.floor(1e3/targetFPS-(now-start))-3)
+                    q.appendleft(now)
 
                     cv.imshow('OpenCV Feed', image)
+                    framecnt+=1
 
-                if cv.waitKey(20) & 0xFF == ord('q'):
+                if cv.waitKey(waitTime) & 0xFF == ord('q'):
                     break
             camera.release()
             cv.destroyAllWindows()
