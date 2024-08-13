@@ -1,0 +1,9 @@
+[
+    {
+        "type":"socketsend",
+        "id":"socket",
+        "ip":"localhost",
+        "port":8888,
+        "start":true
+    }
+]

@@ -53,3 +53,11 @@ def extractLandmarks(x):
     else:
         res['face'] = None
     return res
+
+def generateNullLandmarks():
+    res={}
+    res['body']=None
+    res['leftHand']=None
+    res['rightHand']=None
+    res['face']=None
+    return res

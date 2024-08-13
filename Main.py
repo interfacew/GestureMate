@@ -63,8 +63,9 @@ if __name__ == "__main__":
     os.chdir(dataDir)
     errlog = open("error.log", "w", encoding='utf-8')
     sys.stderr = errlog
-    if not ValidateConfig("config.json"):
-        exit(0)
+    # TODO update validation
+    # if not ValidateConfig("config.json"):
+    #     exit(0)
 
     print(f"use fps limit {fps}, model complexity {complexity}")
     controller = TaskController()

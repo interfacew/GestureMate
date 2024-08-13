@@ -1,7 +1,7 @@
 from tasks import *
 import json
 import cv2 as cv
-from Utils import drawLandmarks, extractLandmarks
+from Utils import drawLandmarks, extractLandmarks,generateNullLandmarks
 import mediapipe.python.solutions as sol
 import time
 from collections import deque
@@ -40,7 +40,9 @@ class TaskController:
 
     def addTask(self, task: Task):
         self.tasks[task.id] = task
-        self.activate[task.id] = task.start
+        self.activate[task.id] = False
+        if task.start:
+            self.activateTask(task.id,generateNullLandmarks())
 
     def clear(self):
         self.tasks = {}
@@ -55,7 +57,7 @@ class TaskController:
                 taskObject = CommandTask(
                     self, task['id'], task['command'], task['timeout'], task['nextTasks'], task['start'])
             elif taskType == "keypress":
-                taskObject = TimeoutTask(
+                taskObject = KeyTask(
                     self, task['id'], task['keys'], task['nextTasks'], task['start'])
             elif taskType == "detect":
                 taskObject = DetectTask(
@@ -66,6 +68,8 @@ class TaskController:
             elif taskType == "timeout":
                 taskObject = TimeoutTask(
                     self, task['id'], task['timeout'], task['nextTasks'], task['start'])
+            elif taskType=="socketsend":
+                taskObject=SocketSendTask(self, task['id'], task['ip'], task['port'], task['start'])
             self.addTask(taskObject)
 
     def startListen(self,targetFPS,modelComplexity):
@@ -104,6 +108,8 @@ class TaskController:
                     framecnt+=1
 
                 if cv.waitKey(waitTime) & 0xFF == ord('q'):
+                    for task in self.tasks.keys():
+                        self.deactivateTask(task,generateNullLandmarks())
                     break
             camera.release()
             cv.destroyAllWindows()
