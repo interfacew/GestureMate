@@ -1,8 +1,132 @@
 import json
 from .Task import Task
+import os
 
 
 class MatchTask(Task):
+
+    def validate(task: dict,ids:list,sameIds:list):
+        errorCount, warningCount = super().validate(task,ids,sameIds)
+        flag1, flag2, flag3, flag4 = False, False, False, False
+
+        if not 'bodyPart' in task.keys():
+            print("Key Error: missing key 'bodyPart'")
+            errorCount += 1
+        elif type(task['bodyPart']) != list:
+            print(
+                f"Type Error: 'bodyPart' expects a list, but found a {type(task['bodyPart'])}({task['bodyPart']}) instead")
+            errorCount += 1
+        else:
+            flag1 = True
+            for i, parts in enumerate(task['bodyPart']):
+                if type(parts) != list:
+                    print(
+                        f"bodyPart[{i}] Type Error: expects a list, but found a {type(parts)}({parts}) instead")
+                    errorCount += 1
+                else:
+                    for j, part in enumerate(parts):
+                        if not part in ['face', 'leftHand', 'rightHand', 'body']:
+                            print(
+                                f"bodyPart[{i}][{j}] Value Error: expects a key in ['face','leftHand','rightHand','body'], but found a {part} instead")
+                            errorCount += 1
+
+        if not 'poseFile' in task.keys():
+            print("Key Error: missing key 'poseFile'")
+            errorCount += 1
+        elif type(task['poseFile']) != list:
+            print(
+                f"Type Error: 'poseFile' expects a list, but found a {type(task['poseFile'])}({task['poseFile']}) instead")
+            errorCount += 1
+        else:
+            flag2 = True
+            for i, file in enumerate(task['poseFile']):
+                if type(file) != str:
+                    print(
+                        f"poseFile[{i}] Type Error: expects a string, but found a {type(file)}({file}) instead")
+                    errorCount += 1
+                else:
+                    if not (os.path.exists(file) and os.path.isfile(file)):
+                        print(f"poseFile[{i}] Value Error: {file} is not exist or not a file")
+                        errorCount+=1
+                        continue
+                    try:
+                        f=open(file,'r')
+                        pose=json.loads(f)
+                        f.close()
+                    except OSError:
+                        print(f"poseFile[{i}] Warning: can not open file {file}")
+                        warningCount+=1
+                        continue
+                    except json.JSONDecodeError as e:
+                        print(f"poseFile[{i}] Value Error: can not load json file {file}:\n\t{e.msg}")
+                        errorCount+=1
+                        continue
+                    if not 'face' in pose.keys():
+                        print(f"poseFile[{i}] Warning: missing key 'face' in {file}")
+                        warningCount+=1
+                    else:
+                        if len(pose['face'])!=478:
+                            print(f"poseFile[{i}] Value Error: 'face' array has an incorrect length")
+                            errorCount+=1
+                    if not 'leftHand' in pose.keys():
+                        print(f"poseFile[{i}] Warning: missing key 'leftHand' in {file}")
+                        warningCount+=1
+                    else:
+                        if len(pose['leftHand'])!=21:
+                            print(f"poseFile[{i}] Value Error: 'leftHand' array has an incorrect length")
+                            errorCount+=1
+                    if not 'rightHand' in pose.keys():
+                        print(f"poseFile[{i}] Warning: missing key 'rightHand' in {file}")
+                        warningCount+=1
+                    else:
+                        if len(pose['rightHand'])!=21:
+                            print(f"poseFile[{i}] Value Error: 'rightHand' array has an incorrect length")
+                            errorCount+=1
+                    if not 'body' in pose.keys():
+                        print(f"poseFile[{i}] Warning: missing key 'body' in {file}")
+                        warningCount+=1
+                    else:
+                        if len(pose['body'])!=33:
+                            print(f"poseFile[{i}] Value Error: 'body' array has an incorrect length")
+                            errorCount+=1
+
+        if not 'sensetive' in task.keys():
+            print("Key Error: missing key 'sensetive'")
+            errorCount += 1
+        elif type(task['sensetive']) != list:
+            print(
+                f"Type Error: 'sensetive' expects a list, but found a {type(task['sensetive'])}({task['sensetive']}) instead")
+            errorCount += 1
+        else:
+            flag3 = True
+            for i, sensetive in enumerate(task['sensetive']):
+                if not type(sensetive) in [int, float]:
+                    print(
+                        f"sensetive[{i}] Type Error: expects an int or float, but found a {type(sensetive)}({sensetive}) instead")
+                    errorCount += 1
+
+        if not 'frames' in task.keys():
+            print("Key Error: missing key 'frames'")
+            errorCount += 1
+        elif type(task['frames']) != list:
+            print(
+                f"Type Error: 'frames' expects a list, but found a {type(task['frames'])}({task['frames']}) instead")
+            errorCount += 1
+        else:
+            flag4 = True
+            for i, frame in enumerate(task['frames']):
+                if type(frame) != int:
+                    print(
+                        f"frames[{i}] Type Error: expects an int, but found a {type(frame)}({frame}) instead")
+                    errorCount += 1
+
+        if flag1 and flag2 and flag3 and flag4 and not (len(task['poseFile']) == len(task['bodyPart']) and len(task['poseFile']) == len(task['sensetive']) and len(task['poseFile']) == len(task['frames'])):
+            print(
+                "ValueError: the lengths of 'poseFile' array, 'bodyPart' array, 'sensetive' array and 'frames' array do not match")
+            errorCount += 1
+
+        return errorCount, warningCount
+
     def normalizePoints(points):
         res = []
         maxx, maxy, maxz, minx, miny, minz = -1, -1, -1, 1, 1, 1

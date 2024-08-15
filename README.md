@@ -81,6 +81,8 @@
 替换后为一个无空格`json`，与`python GetHandConfig.py`生成的`output.json`格式相同\
 如需原始的`%`，请使用`%%`
 
+> 当`timeout`长度不如`command`时，余下位置会补`0`，当超过`command`时，多余的数据被忽略
+
 ## 模拟按键
 
 模拟按键任务应如下编写：
@@ -226,13 +228,19 @@
     "id":"id", // 任务id(唯一)
     "ip":"xxx.xxx.xxx.xxx", // 目标 ip 或主机名
     "port":11111, // 目标端口
-    "start":true/false // 任务是否初始启动
+    "start":true/false, // 任务是否初始启动
+    "nextTasks":[ // 运行指令之后对任务激活状态进行修改
+        {
+            "operate":"start"/"stop", // 启动/停止任务
+            "id":"id" // 目标任务 id
+        },
+        ...
+    ]
 }
 ```
 
 `socket`任务会在启动后建立`tcp`连接\
 随后每帧像`ip:port`发送一个这样的包，长度为`44000`，不足的长度在包尾用空格补齐，包尾有`\0`作为特征\
-在被其他任务终止之后发送一次`quit\0`并关闭`tcp`连接
 
 ```js
 {
@@ -257,3 +265,5 @@
     "time":time // posix 时间戳，float 类型
 }
 ```
+
+在被其他任务终止之后或连接出错的时候发送一次`quit\0`并关闭`tcp`连接，同时执行`nextTasks`里的操作

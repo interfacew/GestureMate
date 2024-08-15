@@ -3,6 +3,19 @@ from .Task import Task
 
 
 class TimeoutTask(Task):
+
+    def validate(task: dict,ids:list,sameIds:list):
+        errorCount, warningCount = super().validate(task,ids,sameIds)
+
+        if not 'timeout' in task.keys():
+            print("KeyError: missing key 'timeout'")
+            errorCount += 1
+        elif not type(task['timeout']) in [int, float]:
+            print(f"Type Error: 'timeout' expects an int or float, but found a {type(task['timeout'])}({task['timeout']}) instead")
+            errorCount += 1
+        
+        return errorCount, warningCount
+    
     def __init__(self, controller: object, id: str, timeout: int, nextTasks: list = [], start: bool = True):
         super().__init__(controller, id, "Timeout", nextTasks, start)
         self.activateTime = -1

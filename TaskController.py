@@ -50,26 +50,25 @@ class TaskController:
 
     def readConfig(self, path: str):
         with open(path, "r") as f:
-            config = json.loads(f.read())
+            config= json.loads(f.read())
         for task in config:
             taskType = task['type']
             if taskType == "command":
                 taskObject = CommandTask(
-                    self, task['id'], task['command'], task['timeout'], task['nextTasks'], task['start'])
+                    self, task['id'], task['command'], task['timeout'], task.get('nextTasks',[]), task.get('start',False))
             elif taskType == "keypress":
                 taskObject = KeyTask(
-                    self, task['id'], task['keys'], task['nextTasks'], task['start'])
+                    self, task['id'], task['keys'], task.get('nextTasks',[]), task.get('start',False))
             elif taskType == "detect":
                 taskObject = DetectTask(
-                    self, task['id'], task['bodyPart'], task['frames'], task['nextTasks'], task['start'])
+                    self, task['id'], task['bodyPart'], task['frames'], task.get('nextTasks',[]), task.get('start',False))
             elif taskType == "match":
-                taskObject = MatchTask(self, task['id'], task['bodyPart'], task['poseFile'],
-                                       task['sensetive'], task['frames'], task['nextTasks'], task['start'])
+                taskObject = MatchTask(self, task['id'], task['bodyPart'], task['poseFile'],task['sensetive'], task['frames'], task.get('nextTasks',[]), task.get('start',False))
             elif taskType == "timeout":
                 taskObject = TimeoutTask(
-                    self, task['id'], task['timeout'], task['nextTasks'], task['start'])
+                    self, task['id'], task['timeout'], task.get('nextTasks',[]), task.get('start',False))
             elif taskType=="socketsend":
-                taskObject=SocketSendTask(self, task['id'], task['ip'], task['port'], task['start'])
+                taskObject=SocketSendTask(self, task['id'], task.get('ip',"127.0.0.1"), task['port'], task.get('nextTasks',[]), task.get('start',False))
             self.addTask(taskObject)
 
     def startListen(self,targetFPS,modelComplexity):
