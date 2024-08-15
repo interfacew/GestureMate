@@ -1,126 +1,974 @@
 [
     {
         "type": "detect",
-        "id": "detect left hand",
+        "id": "detectstart",
         "bodyPart": [
             "leftHand"
         ],
+        "frames": 16,
         "start": true,
-        "command": [],
         "nextTasks": [
             {
                 "operate": "start",
-                "id": "match left hand pose"
-            },
-            {
-                "operate": "stop",
-                "id": "detect left hand"
-            },
-            {
-                "operate": "stop",
-                "id": "detect right hand"
+                "id": "calc"
             }
         ]
     },
     {
-        "type": "detect",
-        "id": "detect right hand",
-        "bodyPart": [
-            "rightHand"
+        "type": "command",
+        "id": "calc",
+        "command": [
+            "start calc"
         ],
-        "start": true,
-        "command": [],
+        "timeout": [
+            0
+        ],
+        "start": false,
         "nextTasks": [
             {
                 "operate": "start",
-                "id": "match left hand pose"
+                "id": "delay2000 start"
             },
             {
-                "operate": "stop",
-                "id": "detect left hand"
-            },
-            {
-                "operate": "stop",
-                "id": "detect right hand"
+                "operate": "start",
+                "id": "detectquit"
             }
         ]
     },
     {
         "type": "match",
-        "id": "match left hand pose",
+        "id": "detect0",
         "bodyPart": [
-            [
-                "leftHand"
-            ],
             [
                 "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand1.json",
-            "./hand2.json"
+            "./hand/hand0.json"
         ],
         "sensetive": [
-            1,
-            1
+            0.3
+        ],
+        "frames": [
+            4
         ],
         "start": false,
-        "command": [],
         "nextTasks": [
             {
-                "operate": "stop",
-                "id": "match left hand pose"
-            },
-            {
                 "operate": "start",
-                "id": "start calc"
-            },
-            {
-                "operate": "start",
-                "id": "match right hand pose"
-            }
-        ]
-    },
-    {
-        "type": "timeout",
-        "id": "start calc",
-        "timeout": 10000,
-        "loop": false,
-        "start": false,
-        "command": [
-            "start calc"
-        ],
-        "nextTasks": [
-            {
-                "operate": "stop",
-                "id": "start calc"
+                "id": "press0"
             }
         ]
     },
     {
         "type": "match",
-        "id": "match right hand pose",
+        "id": "detect1",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand1.json"
+        ],
+        "sensetive": [
+            0.2
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press1"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect2",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand2.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press2"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect3",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand3.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press3"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect4",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand4.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press4"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect5",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand5.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press5"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect6",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand6.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press6"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect7",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand7.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press7"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect8",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand8.json"
+        ],
+        "sensetive": [
+            0.3
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press8"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detect9",
+        "bodyPart": [
+            [
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/hand9.json"
+        ],
+        "sensetive": [
+            0.1
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "press9"
+            }
+        ]
+    },
+    {
+        "type": "command",
+        "id": "start all",
+        "command": [],
+        "timeout": [],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "detect0"
+            },
+            {
+                "operate": "start",
+                "id": "detect1"
+            },
+            {
+                "operate": "start",
+                "id": "detect2"
+            },
+            {
+                "operate": "start",
+                "id": "detect3"
+            },
+            {
+                "operate": "start",
+                "id": "detect4"
+            },
+            {
+                "operate": "start",
+                "id": "detect5"
+            },
+            {
+                "operate": "start",
+                "id": "detect6"
+            },
+            {
+                "operate": "start",
+                "id": "detect7"
+            },
+            {
+                "operate": "start",
+                "id": "detect8"
+            },
+            {
+                "operate": "start",
+                "id": "detect9"
+            },
+            {
+                "operate": "start",
+                "id": "detectadd"
+            },
+            {
+                "operate": "start",
+                "id": "detectminus"
+            },
+            {
+                "operate": "start",
+                "id": "detecttimes"
+            },
+            {
+                "operate": "start",
+                "id": "detectdevide"
+            },
+            {
+                "operate": "start",
+                "id": "detectclear"
+            },
+            {
+                "operate": "start",
+                "id": "detectreturn"
+            }
+        ]
+    },
+    {
+        "type": "command",
+        "id": "stop all",
+        "command": [],
+        "timeout": [],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "stop",
+                "id": "detect0"
+            },
+            {
+                "operate": "stop",
+                "id": "detect1"
+            },
+            {
+                "operate": "stop",
+                "id": "detect2"
+            },
+            {
+                "operate": "stop",
+                "id": "detect3"
+            },
+            {
+                "operate": "stop",
+                "id": "detect4"
+            },
+            {
+                "operate": "stop",
+                "id": "detect5"
+            },
+            {
+                "operate": "stop",
+                "id": "detect6"
+            },
+            {
+                "operate": "stop",
+                "id": "detect7"
+            },
+            {
+                "operate": "stop",
+                "id": "detect8"
+            },
+            {
+                "operate": "stop",
+                "id": "detect9"
+            },
+            {
+                "operate": "stop",
+                "id": "detectadd"
+            },
+            {
+                "operate": "stop",
+                "id": "detectminus"
+            },
+            {
+                "operate": "stop",
+                "id": "detecttimes"
+            },
+            {
+                "operate": "stop",
+                "id": "detectdevide"
+            },
+            {
+                "operate": "stop",
+                "id": "detectclear"
+            },
+            {
+                "operate": "stop",
+                "id": "detectreturn"
+            }
+        ]
+    },
+    {
+        "type": "timeout",
+        "id": "delay100 start",
+        "timeout": 100,
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "start all"
+            }
+        ]
+    },
+    {
+        "type": "timeout",
+        "id": "delay2000 start",
+        "timeout": 2000,
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "start all"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press0",
+        "keys": [
+            [
+                "0"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press1",
+        "keys": [
+            [
+                "1"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press2",
+        "keys": [
+            [
+                "2"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press3",
+        "keys": [
+            [
+                "3"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press4",
+        "keys": [
+            [
+                "4"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press5",
+        "keys": [
+            [
+                "5"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press6",
+        "keys": [
+            [
+                "6"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press7",
+        "keys": [
+            [
+                "7"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press8",
+        "keys": [
+            [
+                "8"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "press9",
+        "keys": [
+            [
+                "9"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detectadd",
         "bodyPart": [
             [
                 "rightHand"
             ]
         ],
         "poseFile": [
-            "./hand1.json"
+            "./hand/add.json"
         ],
         "sensetive": [
-            1
+            0.5
+        ],
+        "frames": [
+            4
         ],
         "start": false,
-        "command": [],
         "nextTasks": [
             {
-                "operate": "stop",
-                "id": "match right hand pose"
+                "operate": "start",
+                "id": "pressadd"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detectminus",
+        "bodyPart": [
+            [
+                "rightHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/minus.json"
+        ],
+        "sensetive": [
+            0.5
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "pressminus"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detecttimes",
+        "bodyPart": [
+            [
+                "rightHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/times.json"
+        ],
+        "sensetive": [
+            0.5
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "presstimes"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detectdevide",
+        "bodyPart": [
+            [
+                "rightHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/devide.json"
+        ],
+        "sensetive": [
+            0.5
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "pressdevide"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detectclear",
+        "bodyPart": [
+            [
+                "rightHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/clear.json"
+        ],
+        "sensetive": [
+            0.5
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "pressclear"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detectreturn",
+        "bodyPart": [
+            [
+                "rightHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/return.json"
+        ],
+        "sensetive": [
+            0.5
+        ],
+        "frames": [
+            4
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "pressreturn"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "pressadd",
+        "keys": [
+            [
+                "+"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
             },
             {
-                "operate": "stop",
-                "id": "start calc"
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "pressminus",
+        "keys": [
+            [
+                "-"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "presstimes",
+        "keys": [
+            [
+                "*"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "pressdevide",
+        "keys": [
+            [
+                "/"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "pressclear",
+        "keys": [
+            [
+                "esc"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "keypress",
+        "id": "pressreturn",
+        "keys": [
+            [
+                "return"
+            ]
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "stop all"
+            },
+            {
+                "operate": "start",
+                "id": "delay100 start"
+            }
+        ]
+    },
+    {
+        "type": "match",
+        "id": "detectquit",
+        "bodyPart": [
+            [
+                "rightHand",
+                "leftHand"
+            ]
+        ],
+        "poseFile": [
+            "./hand/quit.json"
+        ],
+        "sensetive": [
+            0.5
+        ],
+        "frames": [
+            16
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "quitcalc"
+            },
+            {
+                "operate": "start",
+                "id": "stop all"
+            }
+        ]
+    },
+    {
+        "type": "command",
+        "id": "quitcalc",
+        "command": [
+            "taskkill /f /im CalculatorApp.exe"
+        ],
+        "timeout": [
+            0
+        ],
+        "start": false,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "detectstart"
             }
         ]
     }
