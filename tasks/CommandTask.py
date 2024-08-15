@@ -19,20 +19,20 @@ class CommandTask(Task):
             print(f"\t running command {c}")
             cmd = ""
             last = ''
-            for i in c:
-                if i != '%':
+            for j in c:
+                if j != '%':
                     if last == '%':
                         last = ''
-                        if i == 's':
+                        if j == 's':
                             cmd += _x
                             continue
-                        elif i == '%':
+                        elif j == '%':
                             cmd += '%'
                             continue
                         else:
                             raise ValueError
-                    cmd += i
-                last = i
+                    cmd += j
+                last = j
             try:
                 res = subprocess.run(cmd, shell=True,capture_output=True, timeout=(
                     None if timeout[i] == 0 else timeout[i]))
