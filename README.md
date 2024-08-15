@@ -2,11 +2,12 @@
 
 - 克隆仓库到本地
 - 运行`conda create -n continus python=3.11`（可选）
-- 运行`pip install -r requirements.txt`下载依赖
-- 首次运行`python Main.py`会在`./data/`目录下生成一个`config.json`并下载所需的模型
+- 首次运行`python Main.py`会在`./data/`目录下生成一个`config.json`并下载所需的依赖
 - 编写合适的`config.json`，详情见[任务编写](#任务编写)
-- 可以运行`python GetHandConfig.py`帮助你快速生成在`config.json`下可能用到的**存放姿势数据的 json 文件**
+- 可以运行`python GetPoseJson.py`帮助你生成在`config.json`里可能用到的**存放姿势数据的 json 文件**
 - 运行`python Main.py`
+
+> 你可以使用`python Main.py --help`获取更多的参数
 
 # 任务编写
 
@@ -78,7 +79,7 @@
 ```
 
 你可以在命令中使用`%s`，他们会被替换成识别到的姿势位置\
-替换后为一个无空格`json`，与`python GetHandConfig.py`生成的`output.json`格式相同\
+替换后为一个无空格`json`，与`python GetPoseJson.py`生成的`output.json`格式相同\
 如需原始的`%`，请使用`%%`
 
 > 当`timeout`长度不如`command`时，余下位置会补`0`，当超过`command`时，多余的数据被忽略
@@ -166,7 +167,7 @@
 }
 ```
 
-匹配数据可由`python GetHandConfig.py`获取，启动后会捕捉人体，按`s`后会保存当前姿态，此时可以查看其他动作的`sensetive`值，按`q`后会退出并将姿态保存在当前目录下的`output.json`中
+匹配数据可由`python GetPoseJson.py`获取，启动后会捕捉人体，按`s`后会保存当前姿态，此时可以查看其他动作的`sensetive`值，按`q`后会退出并将姿态保存在当前目录下的`output.json`中
 
 ## 延时任务
 
@@ -244,7 +245,7 @@
 
 ```js
 {
-    "pose":{ // 姿态状态，与 GetHandConfig.py 生成的 json 相同
+    "pose":{ // 姿态状态，与 GetPoseJson.py 生成的 json 相同
         "body":[
             [x,y,z],
             ...

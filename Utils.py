@@ -1,21 +1,39 @@
-import mediapipe.python.solutions as sol
+import subprocess
+
+MIRROR = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 
 def drawLandmarks(image, results):
+    import mediapipe.python.solutions as sol
     # Draw face connections
-    sol.drawing_utils.draw_landmarks(image, results.face_landmarks, sol.holistic.FACEMESH_TESSELATION,
-                                     landmark_drawing_spec=None, connection_drawing_spec=sol.drawing_styles.get_default_face_mesh_tesselation_style())
-    sol.drawing_utils.draw_landmarks(image, results.face_landmarks, sol.holistic.FACEMESH_CONTOURS,
-                                     landmark_drawing_spec=None, connection_drawing_spec=sol.drawing_styles.get_default_face_mesh_contours_style())
+    sol.drawing_utils.draw_landmarks(
+        image,
+        results.face_landmarks,
+        sol.holistic.FACEMESH_TESSELATION,
+        landmark_drawing_spec=None,
+        connection_drawing_spec=sol.drawing_styles.
+        get_default_face_mesh_tesselation_style())
+    sol.drawing_utils.draw_landmarks(
+        image,
+        results.face_landmarks,
+        sol.holistic.FACEMESH_CONTOURS,
+        landmark_drawing_spec=None,
+        connection_drawing_spec=sol.drawing_styles.
+        get_default_face_mesh_contours_style())
     # Draw pose connections
     sol.drawing_utils.draw_landmarks(
-        image, results.pose_landmarks, sol.holistic.POSE_CONNECTIONS, sol.drawing_styles.get_default_pose_landmarks_style())
+        image, results.pose_landmarks, sol.holistic.POSE_CONNECTIONS,
+        sol.drawing_styles.get_default_pose_landmarks_style())
     # Draw left hand connections
-    sol.drawing_utils.draw_landmarks(image, results.left_hand_landmarks, sol.holistic.HAND_CONNECTIONS,
-                                     sol.drawing_styles.get_default_hand_landmarks_style(), sol.drawing_styles.get_default_hand_connections_style())
+    sol.drawing_utils.draw_landmarks(
+        image, results.left_hand_landmarks, sol.holistic.HAND_CONNECTIONS,
+        sol.drawing_styles.get_default_hand_landmarks_style(),
+        sol.drawing_styles.get_default_hand_connections_style())
     # Draw right hand connections
-    sol.drawing_utils.draw_landmarks(image, results.right_hand_landmarks, sol.holistic.HAND_CONNECTIONS,
-                                     sol.drawing_styles.get_default_hand_landmarks_style(), sol.drawing_styles.get_default_hand_connections_style())
+    sol.drawing_utils.draw_landmarks(
+        image, results.right_hand_landmarks, sol.holistic.HAND_CONNECTIONS,
+        sol.drawing_styles.get_default_hand_landmarks_style(),
+        sol.drawing_styles.get_default_hand_connections_style())
 
 
 def extractLandmarks(x):
@@ -54,10 +72,53 @@ def extractLandmarks(x):
         res['face'] = None
     return res
 
+
 def generateNullLandmarks():
-    res={}
-    res['body']=None
-    res['leftHand']=None
-    res['rightHand']=None
-    res['face']=None
+    res = {}
+    res['body'] = None
+    res['leftHand'] = None
+    res['rightHand'] = None
+    res['face'] = None
     return res
+
+
+def testPackages(download=True):
+    flag1 = False
+    flag2 = False
+    flag3 = False
+    try:
+        import mediapipe
+    except ModuleNotFoundError:
+        print("Missing package mediapipe")
+        flag1 = True
+
+    try:
+        import cv2
+    except ModuleNotFoundError:
+        print("Missing package opencv-python")
+        flag2 = True
+
+    try:
+        import pyautogui
+    except ModuleNotFoundError:
+        print("Missing package PyAutoGUI")
+        flag3 = True
+
+    if download and (flag1 or flag2 or flag3):
+        try:
+            print("Downloading" + (" mediapipe==0.10.14" if flag1 else "") +
+                  (" opencv-python==4.10.0.84" if flag2 else "") +
+                  (" PyAutoGUI==0.9.54" if flag3 else ""))
+            res = subprocess.run(
+                ['pip', 'install', '-i', MIRROR] +
+                (['mediapipe==0.10.14'] if flag1 else []) +
+                (['opencv-python==4.10.0.84'] if flag2 else []) +
+                (['PyAutoGUI==0.9.54'] if flag3 else []))
+        except OSError as e:
+            print(f"Download Packages Error: {e}")
+        if res.returncode != 0:
+            print(f"Download Packages Error: {res}")
+        else:
+            print("Download Complete")
+
+    return not (flag1 or flag2 or flag3)

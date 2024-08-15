@@ -5,8 +5,8 @@ import os
 
 class MatchTask(Task):
 
-    def validate(task: dict,ids:list,sameIds:list):
-        errorCount, warningCount = super().validate(task,ids,sameIds)
+    def validate(task: dict, ids: list, sameIds: list):
+        errorCount, warningCount = super().validate(task, ids, sameIds)
         flag1, flag2, flag3, flag4 = False, False, False, False
 
         if not 'bodyPart' in task.keys():
@@ -14,20 +14,25 @@ class MatchTask(Task):
             errorCount += 1
         elif type(task['bodyPart']) != list:
             print(
-                f"Type Error: 'bodyPart' expects a list, but found a {type(task['bodyPart'])}({task['bodyPart']}) instead")
+                f"Type Error: 'bodyPart' expects a list, but found a {type(task['bodyPart'])}({task['bodyPart']}) instead"
+            )
             errorCount += 1
         else:
             flag1 = True
             for i, parts in enumerate(task['bodyPart']):
                 if type(parts) != list:
                     print(
-                        f"bodyPart[{i}] Type Error: expects a list, but found a {type(parts)}({parts}) instead")
+                        f"bodyPart[{i}] Type Error: expects a list, but found a {type(parts)}({parts}) instead"
+                    )
                     errorCount += 1
                 else:
                     for j, part in enumerate(parts):
-                        if not part in ['face', 'leftHand', 'rightHand', 'body']:
+                        if not part in [
+                                'face', 'leftHand', 'rightHand', 'body'
+                        ]:
                             print(
-                                f"bodyPart[{i}][{j}] Value Error: expects a key in ['face','leftHand','rightHand','body'], but found a {part} instead")
+                                f"bodyPart[{i}][{j}] Value Error: expects a key in ['face','leftHand','rightHand','body'], but found a {part} instead"
+                            )
                             errorCount += 1
 
         if not 'poseFile' in task.keys():
@@ -35,74 +40,99 @@ class MatchTask(Task):
             errorCount += 1
         elif type(task['poseFile']) != list:
             print(
-                f"Type Error: 'poseFile' expects a list, but found a {type(task['poseFile'])}({task['poseFile']}) instead")
+                f"Type Error: 'poseFile' expects a list, but found a {type(task['poseFile'])}({task['poseFile']}) instead"
+            )
             errorCount += 1
         else:
             flag2 = True
             for i, file in enumerate(task['poseFile']):
                 if type(file) != str:
                     print(
-                        f"poseFile[{i}] Type Error: expects a string, but found a {type(file)}({file}) instead")
+                        f"poseFile[{i}] Type Error: expects a string, but found a {type(file)}({file}) instead"
+                    )
                     errorCount += 1
                 else:
                     if not (os.path.exists(file) and os.path.isfile(file)):
-                        print(f"poseFile[{i}] Value Error: {file} is not exist or not a file")
-                        errorCount+=1
+                        print(
+                            f"poseFile[{i}] Value Error: {file} is not exist or not a file"
+                        )
+                        errorCount += 1
                         continue
                     try:
-                        f=open(file,'r')
-                        pose=json.loads(f)
+                        f = open(file, 'r')
+                        pose = json.loads(f)
                         f.close()
                     except OSError:
-                        print(f"poseFile[{i}] Warning: can not open file {file}")
-                        warningCount+=1
+                        print(
+                            f"poseFile[{i}] Warning: can not open file {file}")
+                        warningCount += 1
                         continue
                     except json.JSONDecodeError as e:
-                        print(f"poseFile[{i}] Value Error: can not load json file {file}:\n\t{e.msg}")
-                        errorCount+=1
+                        print(
+                            f"poseFile[{i}] Value Error: can not load json file {file}:\n\t{e.msg}"
+                        )
+                        errorCount += 1
                         continue
                     if not 'face' in pose.keys():
-                        print(f"poseFile[{i}] Warning: missing key 'face' in {file}")
-                        warningCount+=1
+                        print(
+                            f"poseFile[{i}] Warning: missing key 'face' in {file}"
+                        )
+                        warningCount += 1
                     else:
-                        if len(pose['face'])!=478:
-                            print(f"poseFile[{i}] Value Error: 'face' array has an incorrect length")
-                            errorCount+=1
+                        if len(pose['face']) != 478:
+                            print(
+                                f"poseFile[{i}] Value Error: 'face' array has an incorrect length"
+                            )
+                            errorCount += 1
                     if not 'leftHand' in pose.keys():
-                        print(f"poseFile[{i}] Warning: missing key 'leftHand' in {file}")
-                        warningCount+=1
+                        print(
+                            f"poseFile[{i}] Warning: missing key 'leftHand' in {file}"
+                        )
+                        warningCount += 1
                     else:
-                        if len(pose['leftHand'])!=21:
-                            print(f"poseFile[{i}] Value Error: 'leftHand' array has an incorrect length")
-                            errorCount+=1
+                        if len(pose['leftHand']) != 21:
+                            print(
+                                f"poseFile[{i}] Value Error: 'leftHand' array has an incorrect length"
+                            )
+                            errorCount += 1
                     if not 'rightHand' in pose.keys():
-                        print(f"poseFile[{i}] Warning: missing key 'rightHand' in {file}")
-                        warningCount+=1
+                        print(
+                            f"poseFile[{i}] Warning: missing key 'rightHand' in {file}"
+                        )
+                        warningCount += 1
                     else:
-                        if len(pose['rightHand'])!=21:
-                            print(f"poseFile[{i}] Value Error: 'rightHand' array has an incorrect length")
-                            errorCount+=1
+                        if len(pose['rightHand']) != 21:
+                            print(
+                                f"poseFile[{i}] Value Error: 'rightHand' array has an incorrect length"
+                            )
+                            errorCount += 1
                     if not 'body' in pose.keys():
-                        print(f"poseFile[{i}] Warning: missing key 'body' in {file}")
-                        warningCount+=1
+                        print(
+                            f"poseFile[{i}] Warning: missing key 'body' in {file}"
+                        )
+                        warningCount += 1
                     else:
-                        if len(pose['body'])!=33:
-                            print(f"poseFile[{i}] Value Error: 'body' array has an incorrect length")
-                            errorCount+=1
+                        if len(pose['body']) != 33:
+                            print(
+                                f"poseFile[{i}] Value Error: 'body' array has an incorrect length"
+                            )
+                            errorCount += 1
 
         if not 'sensetive' in task.keys():
             print("Key Error: missing key 'sensetive'")
             errorCount += 1
         elif type(task['sensetive']) != list:
             print(
-                f"Type Error: 'sensetive' expects a list, but found a {type(task['sensetive'])}({task['sensetive']}) instead")
+                f"Type Error: 'sensetive' expects a list, but found a {type(task['sensetive'])}({task['sensetive']}) instead"
+            )
             errorCount += 1
         else:
             flag3 = True
             for i, sensetive in enumerate(task['sensetive']):
                 if not type(sensetive) in [int, float]:
                     print(
-                        f"sensetive[{i}] Type Error: expects an int or float, but found a {type(sensetive)}({sensetive}) instead")
+                        f"sensetive[{i}] Type Error: expects an int or float, but found a {type(sensetive)}({sensetive}) instead"
+                    )
                     errorCount += 1
 
         if not 'frames' in task.keys():
@@ -110,19 +140,25 @@ class MatchTask(Task):
             errorCount += 1
         elif type(task['frames']) != list:
             print(
-                f"Type Error: 'frames' expects a list, but found a {type(task['frames'])}({task['frames']}) instead")
+                f"Type Error: 'frames' expects a list, but found a {type(task['frames'])}({task['frames']}) instead"
+            )
             errorCount += 1
         else:
             flag4 = True
             for i, frame in enumerate(task['frames']):
                 if type(frame) != int:
                     print(
-                        f"frames[{i}] Type Error: expects an int, but found a {type(frame)}({frame}) instead")
+                        f"frames[{i}] Type Error: expects an int, but found a {type(frame)}({frame}) instead"
+                    )
                     errorCount += 1
 
-        if flag1 and flag2 and flag3 and flag4 and not (len(task['poseFile']) == len(task['bodyPart']) and len(task['poseFile']) == len(task['sensetive']) and len(task['poseFile']) == len(task['frames'])):
+        if flag1 and flag2 and flag3 and flag4 and not (
+                len(task['poseFile']) == len(task['bodyPart'])
+                and len(task['poseFile']) == len(task['sensetive'])
+                and len(task['poseFile']) == len(task['frames'])):
             print(
-                "ValueError: the lengths of 'poseFile' array, 'bodyPart' array, 'sensetive' array and 'frames' array do not match")
+                "ValueError: the lengths of 'poseFile' array, 'bodyPart' array, 'sensetive' array and 'frames' array do not match"
+            )
             errorCount += 1
 
         return errorCount, warningCount
@@ -137,16 +173,18 @@ class MatchTask(Task):
             minx = min(minx, point[0])
             miny = min(miny, point[1])
             minz = min(minz, point[2])
-        maxDelta = max(maxx-minx, maxy-miny)
+        maxDelta = max(maxx - minx, maxy - miny)
         if maxDelta <= 1e-8:
-            return [[0, 0, 0]]*len(points)
+            return [[0, 0, 0]] * len(points)
         for point in points:
-            newx = (point[0]-(maxx+minx)/2)/maxDelta
-            newy = (point[1]-(maxy+miny)/2)/maxDelta
-            newz = (point[2]-(maxz+minz)/2)/(maxz-minz)/4
-            if newx < -0.5-1e-8 or newx > 0.5+1e-8 or newy < -0.5-1e-8 or newy > 0.5+1e-8 or newz < -0.125-1e-8 or newz > 0.125+1e-8:
-                print([point[0], point[1], point[2], newx, newy, newz,
-                      maxDelta, maxx, maxy, minx, miny, maxz, minz])
+            newx = (point[0] - (maxx + minx) / 2) / maxDelta
+            newy = (point[1] - (maxy + miny) / 2) / maxDelta
+            newz = (point[2] - (maxz + minz) / 2) / (maxz - minz) / 4
+            if newx < -0.5 - 1e-8 or newx > 0.5 + 1e-8 or newy < -0.5 - 1e-8 or newy > 0.5 + 1e-8 or newz < -0.125 - 1e-8 or newz > 0.125 + 1e-8:
+                print([
+                    point[0], point[1], point[2], newx, newy, newz, maxDelta,
+                    maxx, maxy, minx, miny, maxz, minz
+                ])
                 raise ValueError
             res.append([newx, newy, newz])
         return res
@@ -160,13 +198,23 @@ class MatchTask(Task):
             match = MatchTask.normalizePoints(pose[part])
             if len(points) != len(match):
                 raise ValueError(
-                    f"Point count unmatch! Expect {len(match)} but find {len(points)}")
+                    f"Point count unmatch! Expect {len(match)} but find {len(points)}"
+                )
             for i in range(len(points)):
-                delta += ((points[i][0]-match[i][0])**2+(points[i]
-                          [1]-match[i][1])**2+(points[i][2]-match[i][2])**2)
+                delta += ((points[i][0] - match[i][0])**2 +
+                          (points[i][1] - match[i][1])**2 +
+                          (points[i][2] - match[i][2])**2)
         return delta
 
-    def __init__(self, controller: object, id: str, bodyPart: list, poseFile: list, sensetive: list, frames: list, nextTasks: list = [], start: bool = True):
+    def __init__(self,
+                 controller: object,
+                 id: str,
+                 bodyPart: list,
+                 poseFile: list,
+                 sensetive: list,
+                 frames: list,
+                 nextTasks: list = [],
+                 start: bool = True):
         super().__init__(controller, id, "Match", nextTasks, start)
         self.bodyPart = bodyPart
         self.pose = []
@@ -178,10 +226,10 @@ class MatchTask(Task):
             with open(file, "r") as f:
                 self.pose.append(json.loads(f.read()))
             self.poseName.append(file.split('/')[-1].split('\\')[-1])
-        self.count = [0]*len(self.pose)
+        self.count = [0] * len(self.pose)
 
     def activate(self, x):
-        self.count = [0]*len(self.pose)
+        self.count = [0] * len(self.pose)
         self.listen(x)
 
     def _listen(self, x):
@@ -189,7 +237,8 @@ class MatchTask(Task):
         for i in range(len(self.pose)):
             delta = MatchTask.calcDelta(self.bodyPart[i], x, self.pose[i])
             print(
-                f"\tpose {self.poseName[i]}, delta {delta:.5f} ({self.count[i]}/{self.frames[i]})", end="")
+                f"\tpose {self.poseName[i]}, delta {delta:.5f} ({self.count[i]}/{self.frames[i]})",
+                end="")
             if delta != -1 and delta < self.sensetive[i]:
                 print("match")
                 self.count[i] += 1

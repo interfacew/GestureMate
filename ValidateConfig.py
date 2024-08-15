@@ -6,7 +6,7 @@ from tasks import *
 
 def ValidateConfig(path):
     errorCount = 0
-    warningCount=0
+    warningCount = 0
     try:
         with open(path, "r") as f:
             config = json.loads(f.read())
@@ -17,15 +17,17 @@ def ValidateConfig(path):
         print(f"Can't read file {path}: {err}")
         return False
 
-    if type(config)!=list:
-        print(f"Type Error: expected a list in 'config.json', but found a {type(config)} instead")
+    if type(config) != list:
+        print(
+            f"Type Error: expected a list in 'config.json', but found a {type(config)} instead"
+        )
         return False
 
     print("checking ids...")
-    ids=[]
-    sameIds=[]
-    for i,task in enumerate(config):
-        if type(task)!=dict:
+    ids = []
+    sameIds = []
+    for i, task in enumerate(config):
+        if type(task) != dict:
             continue
         if not 'id' in task.keys():
             continue
@@ -37,40 +39,43 @@ def ValidateConfig(path):
     print(f"Loaded {len(ids)} id")
 
     print("checking tasks...")
-    for i,task in enumerate(config):
-        print("="*20 +f"Task {i:05d}"+"="*20)
-        if type(task)!=dict:
-            print(f"Type Error: expected a dict, but found a {type(task)} instead")
-            errorCount+=1
+    for i, task in enumerate(config):
+        print("=" * 20 + f"Task {i:05d}" + "=" * 20)
+        if type(task) != dict:
+            print(
+                f"Type Error: expected a dict, but found a {type(task)} instead"
+            )
+            errorCount += 1
             continue
 
         if not 'type' in task.keys():
             print(f"Key Error: missing key 'type'")
-            errorCount+=1
+            errorCount += 1
             continue
 
         taskType = task['type']
         if taskType == "command":
-            a,b=CommandTask.validate(task,ids,sameIds)
+            a, b = CommandTask.validate(task, ids, sameIds)
         elif taskType == "keypress":
-            a,b=KeyTask.validate(task,ids,sameIds)
+            a, b = KeyTask.validate(task, ids, sameIds)
         elif taskType == "detect":
-            a,b=DetectTask.validate(task,ids,sameIds)
+            a, b = DetectTask.validate(task, ids, sameIds)
         elif taskType == "match":
-            a,b=MatchTask.validate(task,ids,sameIds)
+            a, b = MatchTask.validate(task, ids, sameIds)
         elif taskType == "timeout":
-            a,b=TimeoutTask.validate(task,ids,sameIds)
-        elif taskType=="socketsend":
-            a,b=SocketSendTask.validate(task,ids,sameIds)
+            a, b = TimeoutTask.validate(task, ids, sameIds)
+        elif taskType == "socketsend":
+            a, b = SocketSendTask.validate(task, ids, sameIds)
         else:
             print(f"Value Error: unknown task type {taskType}")
-            a,b=1,0
-        errorCount+=a
-        warningCount+=b
-    
-    print("="*30)
+            a, b = 1, 0
+        errorCount += a
+        warningCount += b
+
+    print("=" * 30)
     print(f"Total: {errorCount} Errors, {warningCount} Warnings")
-    return errorCount==0
+    return errorCount == 0
+
 
 if __name__ == "__main__":
     data_dir = r".\data"
