@@ -81,6 +81,7 @@ class TaskController:
                 taskObject = SocketSendTask(self, task['id'],
                                             task.get('ip', "127.0.0.1"),
                                             task['port'],
+                                            task.get('extra', None),
                                             task.get('nextTasks', []),
                                             task.get('start', False))
             self.addTask(taskObject)

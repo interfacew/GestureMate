@@ -3,7 +3,8 @@ from .Task import Task
 
 class DetectTask(Task):
 
-    def validate(task: dict, ids: list, sameIds: list):
+    @classmethod
+    def validate(cls,task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
 
         if not 'bodyPart' in task.keys():
@@ -47,7 +48,6 @@ class DetectTask(Task):
 
     def activate(self, x):
         self.count = 0
-        self.listen(x)
 
     def _listen(self, x):
         print(f"detect {self.bodyPart} ({self.count}/{self.frames})")

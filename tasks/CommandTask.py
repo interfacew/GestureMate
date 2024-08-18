@@ -7,7 +7,8 @@ import json
 
 class CommandTask(Task):
 
-    def validate(task: dict, ids: list, sameIds: list):
+    @classmethod
+    def validate(cls,task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
         flag1, flag2 = False, False
 

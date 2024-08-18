@@ -9,7 +9,8 @@ class SocketSendTask(Task):
     PACKAGE_LENGTH = 44000
     MAX_RETRY = 5
 
-    def validate(task: dict, ids: list, sameIds: list):
+    @classmethod
+    def validate(cls,task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
 
         if not 'ip' in task.keys():
@@ -30,6 +31,10 @@ class SocketSendTask(Task):
             )
             errorCount += 1
 
+        if not 'extra' in task.keys():
+            print("Warning: missing key 'extra', use null as default")
+            warningCount += 1
+
         return errorCount, warningCount
 
     def __init__(self,
@@ -37,18 +42,24 @@ class SocketSendTask(Task):
                  id: str,
                  ip: str,
                  port: int,
+                 extra: dict,
                  nextTasks: list,
                  start: bool = True):
         super().__init__(controller, id, "SocketSend", nextTasks, start)
         self.ip = ip
         self.port = port
+        self.extra = extra
+        self.isLink = False
 
     def activate(self, x):
-        self.connect(x)
+        if not self.isLink:
+            self.connect(x)
+            self.isLink = True
 
     def deactivate(self, x):
         self.send("quit\0".encode('ascii'), x)
         self.socket.close()
+        self.isLink = False
         self.process(x)
 
     def process(self, x):
@@ -72,6 +83,7 @@ class SocketSendTask(Task):
     def send(self, msg, x):
         retry = 0
         start = 0
+        l = 0
         while start < len(msg):
             try:
                 l = self.socket.send(msg[start:])
@@ -80,6 +92,7 @@ class SocketSendTask(Task):
                       file=sys.stderr)
                 if msg != 'quit\0'.encode('ascii'):
                     self.controller.deactivateTask(self.id, x)
+                break
             if l == 0:
                 retry += 1
                 if retry > self.MAX_RETRY:
@@ -95,7 +108,7 @@ class SocketSendTask(Task):
     def _listen(self, x):
         now = datetime.now().timestamp()
         print(f"time {now}")
-        _x = json.dumps({"pose": x, "time": now}) + '\0'
+        _x = json.dumps({"pose": x, "time": now, "extra": self.extra}) + '\0'
         _x = _x.replace(" ", "")
         _x = _x + " " * (self.PACKAGE_LENGTH - len(_x))
         _x = _x.encode('ascii')

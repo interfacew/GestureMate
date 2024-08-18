@@ -4,7 +4,8 @@ from .Task import Task
 
 class TimeoutTask(Task):
 
-    def validate(task: dict, ids: list, sameIds: list):
+    @classmethod
+    def validate(cls,task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
 
         if not 'timeout' in task.keys():

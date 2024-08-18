@@ -5,7 +5,8 @@ import os
 
 class MatchTask(Task):
 
-    def validate(task: dict, ids: list, sameIds: list):
+    @classmethod
+    def validate(cls,task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
         flag1, flag2, flag3, flag4 = False, False, False, False
 
@@ -230,7 +231,6 @@ class MatchTask(Task):
 
     def activate(self, x):
         self.count = [0] * len(self.pose)
-        self.listen(x)
 
     def _listen(self, x):
         print(f"poses {str(self.poseName)}:")

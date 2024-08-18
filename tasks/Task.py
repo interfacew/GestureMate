@@ -3,7 +3,8 @@ import os
 
 class Task:
 
-    def validate(task: dict, ids: list, sameIds: list):
+    @classmethod
+    def validate(cls,task: dict, ids: list, sameIds: list):
         errorCount = 0
         warningCount = 0
         if not 'id' in task.keys():
