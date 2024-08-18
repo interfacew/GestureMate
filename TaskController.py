@@ -124,9 +124,12 @@ class TaskController:
                             cv.FONT_HERSHEY_COMPLEX,
                             1.0, (255, 0, 0),
                             bottomLeftOrigin=False)
-                        waitTime = max(
-                            1,
-                            math.floor(1e3 / targetFPS - (now - start)) - 3)
+                        if targetFPS!=0:
+                            waitTime = max(
+                                1,
+                                math.floor(1e3 / targetFPS - (now - start)) - 3)
+                        else:
+                            waitTime=1
                     q.appendleft(now)
 
                     cv.imshow('OpenCV Feed', image)
