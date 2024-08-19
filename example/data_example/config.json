@@ -41,15 +41,21 @@
         "bodyPart": [
             [
                 "leftHand"
+            ],
+            [
+                "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand/hand0.json"
+            "./hand/hand0.json",
+            "./hand/hand02_slightlyLeft.json"
         ],
         "sensetive": [
+            0.3,
             0.3
         ],
         "frames": [
+            4,
             4
         ],
         "start": false,
@@ -141,15 +147,21 @@
         "bodyPart": [
             [
                 "leftHand"
+            ],
+            [
+                "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand/hand4.json"
+            "./hand/hand4.json",
+            "./hand/hand4_2.json"
         ],
         "sensetive": [
+            0.3,
             0.3
         ],
         "frames": [
+            4,
             4
         ],
         "start": false,
@@ -166,15 +178,21 @@
         "bodyPart": [
             [
                 "leftHand"
+            ],
+            [
+                "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand/hand5.json"
+            "./hand/hand5.json",
+            "./hand/hand52.json"
         ],
         "sensetive": [
+            0.3,
             0.3
         ],
         "frames": [
+            4,
             4
         ],
         "start": false,
@@ -191,15 +209,21 @@
         "bodyPart": [
             [
                 "leftHand"
+            ],
+            [
+                "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand/hand6.json"
+            "./hand/hand6.json",
+            "./hand/hand6_2.json"
         ],
         "sensetive": [
+            0.3,
             0.3
         ],
         "frames": [
+            4,
             4
         ],
         "start": false,
@@ -216,15 +240,27 @@
         "bodyPart": [
             [
                 "leftHand"
+            ],
+            [
+                "leftHand"
+            ],
+            [
+                "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand/hand7.json"
+            "./hand/hand7.json",
+            "./hand/hand72_front.json",
+            "./hand/hand72_left.json"
         ],
         "sensetive": [
+            0.3,
+            0.3,
             0.3
         ],
         "frames": [
+            4,
+            4,
             4
         ],
         "start": false,
@@ -266,15 +302,21 @@
         "bodyPart": [
             [
                 "leftHand"
+            ],
+            [
+                "leftHand"
             ]
         ],
         "poseFile": [
-            "./hand/hand9.json"
+            "./hand/hand9.json",
+            "./hand/hand9_2.json"
         ],
         "sensetive": [
+            0.1,
             0.1
         ],
         "frames": [
+            4,
             4
         ],
         "start": false,
