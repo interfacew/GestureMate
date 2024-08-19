@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     from Utils import testPackages
     if envCheck:
-        res=testPackages(envDownload)
+        res = testPackages(envDownload)
         if not (envDownload or res):
             exit(0)
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     print(f"working in folder {dataDir}")
     if not os.path.exists(dataDir):
         os.mkdir(dataDir)
-    configPath=os.path.join(dataDir, "config.json")
+    configPath = os.path.join(dataDir, "config.json")
     if not os.path.exists(configPath):
         with open(configPath, "w") as f:
             f.write("[]")
@@ -93,7 +93,7 @@ if __name__ == "__main__":
                                    min_tracking_confidence=0.5,
                                    model_complexity=2) as holistic:
             pass
-        
+
         print(f"Now you can modify {configPath} to custom your own task list")
         exit(0)
 

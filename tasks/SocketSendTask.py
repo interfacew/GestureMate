@@ -10,7 +10,7 @@ class SocketSendTask(Task):
     MAX_RETRY = 5
 
     @classmethod
-    def validate(cls,task: dict, ids: list, sameIds: list):
+    def validate(cls, task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
 
         if not 'ip' in task.keys():

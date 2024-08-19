@@ -4,7 +4,7 @@ from .Task import Task
 class DetectTask(Task):
 
     @classmethod
-    def validate(cls,task: dict, ids: list, sameIds: list):
+    def validate(cls, task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
 
         if not 'bodyPart' in task.keys():

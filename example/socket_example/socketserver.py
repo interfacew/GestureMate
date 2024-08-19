@@ -10,13 +10,14 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(('localhost', 8888))
 server.listen(5)
 server.setblocking(False)
-msgQueue=Queue()
+msgQueue = Queue()
 
-stopServer=False
+stopServer = False
 
-def process(conn,addr):
+
+def process(conn, addr):
     global stopServer
-    res=""
+    res = ""
     while not stopServer:
         try:
             msg = conn.recv(1024).decode('ascii')
@@ -35,6 +36,7 @@ def process(conn,addr):
     conn.close()
     print(f"dicsonnect from {addr[0]}:{addr[1]}")
 
+
 def serverListen(s):
     global stopServer
     while not stopServer:
@@ -43,16 +45,17 @@ def serverListen(s):
         except:
             continue
         print(f"connect to {addr[0]}:{addr[1]}")
-        handler=threading.Thread(target=process,args=[conn,addr])
+        handler = threading.Thread(target=process, args=[conn, addr])
         handler.start()
 
+
 image = np.zeros((90, 160, 3), np.uint8)
-serverThread=threading.Thread(target=serverListen,args=[server])
+serverThread = threading.Thread(target=serverListen, args=[server])
 serverThread.start()
 
 while True:
     if not msgQueue.empty():
-        pack=msgQueue.get()
+        pack = msgQueue.get()
         print(pack['time'])
 
         image = np.zeros((90, 160, 3), np.uint8)
@@ -74,6 +77,6 @@ while True:
         cv2.imshow("recv", image)
 
     if cv2.waitKey(1) & 0xFF == ord('w'):
-        stopServer=True
+        stopServer = True
         break
 cv2.destroyAllWindows()

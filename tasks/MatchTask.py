@@ -6,7 +6,7 @@ import os
 class MatchTask(Task):
 
     @classmethod
-    def validate(cls,task: dict, ids: list, sameIds: list):
+    def validate(cls, task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
         flag1, flag2, flag3, flag4 = False, False, False, False
 

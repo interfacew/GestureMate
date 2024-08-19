@@ -5,7 +5,7 @@ import pyautogui
 class KeyTask(Task):
 
     @classmethod
-    def validate(cls,task: dict, ids: list, sameIds: list):
+    def validate(cls, task: dict, ids: list, sameIds: list):
         errorCount, warningCount = super().validate(task, ids, sameIds)
         if not 'keys' in task.keys():
             print("Key Error: missing key 'keys'")
