@@ -61,7 +61,7 @@ class MatchTask(Task):
                         continue
                     try:
                         f = open(file, 'r')
-                        pose = json.loads(f)
+                        pose = json.loads(f.read())
                         f.close()
                     except OSError:
                         print(
@@ -74,18 +74,19 @@ class MatchTask(Task):
                         )
                         errorCount += 1
                         continue
-                    if not 'face' in pose.keys():
+                    if not 'face' in pose.keys() or pose['face'] == None:
                         print(
                             f"poseFile[{i}] Warning: missing key 'face' in {file}"
                         )
                         warningCount += 1
                     else:
-                        if len(pose['face']) != 478:
+                        if len(pose['face']) != 468:
                             print(
-                                f"poseFile[{i}] Value Error: 'face' array has an incorrect length"
+                                f"poseFile[{i}] Value Error: 'face' array has an incorrect length: {len(pose['face'])}"
                             )
                             errorCount += 1
-                    if not 'leftHand' in pose.keys():
+                    if not 'leftHand' in pose.keys(
+                    ) or pose['leftHand'] == None:
                         print(
                             f"poseFile[{i}] Warning: missing key 'leftHand' in {file}"
                         )
@@ -93,10 +94,11 @@ class MatchTask(Task):
                     else:
                         if len(pose['leftHand']) != 21:
                             print(
-                                f"poseFile[{i}] Value Error: 'leftHand' array has an incorrect length"
+                                f"poseFile[{i}] Value Error: 'leftHand' array has an incorrect length: {len(pose['leftHand'])}"
                             )
                             errorCount += 1
-                    if not 'rightHand' in pose.keys():
+                    if not 'rightHand' in pose.keys(
+                    ) or pose['rightHand'] == None:
                         print(
                             f"poseFile[{i}] Warning: missing key 'rightHand' in {file}"
                         )
@@ -104,10 +106,10 @@ class MatchTask(Task):
                     else:
                         if len(pose['rightHand']) != 21:
                             print(
-                                f"poseFile[{i}] Value Error: 'rightHand' array has an incorrect length"
+                                f"poseFile[{i}] Value Error: 'rightHand' array has an incorrect length: {len(pose['rightHand'])}"
                             )
                             errorCount += 1
-                    if not 'body' in pose.keys():
+                    if not 'body' in pose.keys() or pose['body'] == None:
                         print(
                             f"poseFile[{i}] Warning: missing key 'body' in {file}"
                         )
@@ -115,7 +117,7 @@ class MatchTask(Task):
                     else:
                         if len(pose['body']) != 33:
                             print(
-                                f"poseFile[{i}] Value Error: 'body' array has an incorrect length"
+                                f"poseFile[{i}] Value Error: 'body' array has an incorrect length: {len(pose['body'])}"
                             )
                             errorCount += 1
 
