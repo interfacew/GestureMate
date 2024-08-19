@@ -55,7 +55,7 @@ class TaskController:
             taskType = task['type']
             if taskType == "command":
                 taskObject = CommandTask(self, task['id'], task['command'],
-                                         task['timeout'],
+                                         task.get('timeout',[]),
                                          task.get('nextTasks', []),
                                          task.get('start', False))
             elif taskType == "keypress":
