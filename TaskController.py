@@ -1,14 +1,15 @@
 from tasks import *
 import json
 import cv2 as cv
-from Utils import drawLandmarks, extractLandmarks
+from Utils import drawLandmarks, extractLandmarks, generateNullLandmarks
 import mediapipe.python.solutions as sol
 import time
 from collections import deque
+import math
 
 
 class TaskController:
-    FPS_COUNT_FRAME=10
+    FPS_COUNT_FRAME = 10
 
     def __init__(self):
         self.tasks = {}
@@ -39,7 +40,9 @@ class TaskController:
 
     def addTask(self, task: Task):
         self.tasks[task.id] = task
-        self.activate[task.id] = task.start
+        self.activate[task.id] = False
+        if task.start:
+            self.activateTask(task.id, generateNullLandmarks())
 
     def clear(self):
         self.tasks = {}
@@ -51,52 +54,91 @@ class TaskController:
         for task in config:
             taskType = task['type']
             if taskType == "command":
-                taskObject = CommandTask(
-                    self, task['id'], task['command'], task['timeout'], task['nextTasks'], task['start'])
+                taskObject = CommandTask(self, task['id'], task['command'],
+                                         task['timeout'],
+                                         task.get('nextTasks', []),
+                                         task.get('start', False))
             elif taskType == "keypress":
-                taskObject = TimeoutTask(
-                    self, task['id'], task['keys'], task['nextTasks'], task['start'])
+                taskObject = KeyTask(self, task['id'], task['keys'],
+                                     task.get('nextTasks', []),
+                                     task.get('start', False))
             elif taskType == "detect":
-                taskObject = DetectTask(
-                    self, task['id'], task['bodyPart'], task['frames'], task['nextTasks'], task['start'])
+                taskObject = DetectTask(self, task['id'], task['bodyPart'],
+                                        task['frames'],
+                                        task.get('nextTasks', []),
+                                        task.get('start', False))
             elif taskType == "match":
-                taskObject = MatchTask(self, task['id'], task['bodyPart'], task['poseFile'],
-                                       task['sensetive'], task['frames'], task['nextTasks'], task['start'])
+                taskObject = MatchTask(self, task['id'], task['bodyPart'],
+                                       task['poseFile'],
+                                       task['sensetive'], task['frames'],
+                                       task.get('nextTasks', []),
+                                       task.get('start', False))
             elif taskType == "timeout":
-                taskObject = TimeoutTask(
-                    self, task['id'], task['timeout'], task['nextTasks'], task['start'])
+                taskObject = TimeoutTask(self, task['id'], task['timeout'],
+                                         task.get('nextTasks', []),
+                                         task.get('start', False))
+            elif taskType == "socketsend":
+                taskObject = SocketSendTask(self, task['id'],
+                                            task.get('ip', "127.0.0.1"),
+                                            task['port'],
+                                            task.get('extra', None),
+                                            task.get('nextTasks', []),
+                                            task.get('start', False))
             self.addTask(taskObject)
 
-    def startListen(self):
+    def startListen(self, targetFPS, modelComplexity):
         camera = cv.VideoCapture(0, cv.CAP_DSHOW)
         camera.set(cv.CAP_PROP_FRAME_WIDTH, 1920)
         camera.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)
         camera.set(cv.CAP_PROP_FPS, 60)
-        q=deque([],self.FPS_COUNT_FRAME)
-        with sol.holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5, model_complexity=2) as holistic:
+        q = deque([], self.FPS_COUNT_FRAME + 10)
+        framecnt = 0
+        with sol.holistic.Holistic(
+                min_detection_confidence=0.5,
+                min_tracking_confidence=0.5,
+                model_complexity=modelComplexity) as holistic:
             while camera.isOpened():
                 ret, frame = camera.read()
+                waitTime = 1
                 if ret:
+                    start = time.time() * 1e3
+
                     frame = frame[:, ::-1, :]
-                    # COLOR CONVERSION BGR 2 RGB
                     image = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
-                    image.flags.writeable = False                  # Image is no longer writeable
-                    # Make prediction
+                    image.flags.writeable = False
                     results = holistic.process(image)
-                    image.flags.writeable = True                   # Image is now writeable
-                    # COLOR COVERSION RGB 2 BGR
+                    image.flags.writeable = True
                     image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
                     drawLandmarks(image, results)
-                    self.listen(extractLandmarks(results))
 
-                    now=time.time_ns()
-                    if len(q)>=self.FPS_COUNT_FRAME:
-                        last=q.pop()
-                        cv.putText(image,f"FPS: {self.FPS_COUNT_FRAME*1e9/(now-last)}",(10,10),cv.FONT_HERSHEY_COMPLEX,2.0,(255,0,0))
+                    if framecnt >= self.FPS_COUNT_FRAME * 3:
+                        self.listen(extractLandmarks(results))
+
+                    now = time.time() * 1e3
+                    if framecnt >= self.FPS_COUNT_FRAME:
+                        last = q.pop()
+                        cv.putText(
+                            image,
+                            f"FPS: {self.FPS_COUNT_FRAME*1e3/(now-last):.3f}",
+                            (10, 30),
+                            cv.FONT_HERSHEY_COMPLEX,
+                            1.0, (255, 0, 0),
+                            bottomLeftOrigin=False)
+                        if targetFPS != 0:
+                            waitTime = max(
+                                1,
+                                math.floor(1e3 / targetFPS - (now - start)) -
+                                3)
+                        else:
+                            waitTime = 1
+                    q.appendleft(now)
 
                     cv.imshow('OpenCV Feed', image)
+                    framecnt += 1
 
-                if cv.waitKey(20) & 0xFF == ord('q'):
+                if cv.waitKey(waitTime) & 0xFF == ord('q'):
+                    for task in self.tasks.keys():
+                        self.deactivateTask(task, generateNullLandmarks())
                     break
             camera.release()
             cv.destroyAllWindows()
