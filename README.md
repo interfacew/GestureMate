@@ -9,6 +9,25 @@
 
 > 你可以使用`python Main.py --help`获取更多的参数
 
+# Demo
+
+本项目提供了两个`demo`，分别是一个手势控制的计算器和一个`socketHook`的实例\
+位于`example`文件夹下\
+
+## 计算器
+
+你可以使用`python Main.py --data=".\example\data_example"`运行计算器\
+在识别到左手约 2s 后会自动唤出计算器进程，将手心面向镜头比出数字可以输入，右手食指指向上方或左方表示加减或乘除，其中手心向前为加乘，手心向后为减除\
+双手食指交叉会退出计算器并重新开始检测左手
+
+## `socketHook`
+
+在运行此`demo`前，请先运行`python .\example\socket_example\socketserver.py`\
+随后开启第二个终端运行`python Main.py --data=".\example\socket_example"`\
+启动后，当检测到左手或右手时，你会看到`socketserver`显示出的小框里的点，这些是主程序通过`socket`传输过去的东西\
+当右手和左手均不在范围内时，传输会停止，`socketserver`显示出的小框中应不发生变化\
+同时`socketserver`程序会打印出收到的时间戳与连接/断开时的日志
+
 # 任务编写
 
 任务的编写在`config.json`中，`config.json`应是这样:
