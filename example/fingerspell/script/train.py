@@ -152,7 +152,7 @@ def test(dataloader, model, loss_fn):
     print(f"loss {losssum/cnt} acc {acc/len(dataloader.dataset)}")
 
 
-device = 'cuda'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = SignClassifier()
 model.to(device)
 loss_fn = nn.CrossEntropyLoss()

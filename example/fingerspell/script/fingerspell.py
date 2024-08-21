@@ -62,7 +62,7 @@ token_list = []
 with open(os.path.join(train_dir, "../tokenlist.json"), "r") as f:
     token_list = json.loads(f.read())
 print(token_list)
-device = 'cuda'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 import math
 from datetime import datetime
 
