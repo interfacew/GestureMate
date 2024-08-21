@@ -1,9 +1,10 @@
 import os
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from utils import train_dir,normalize
+from utils import train_dir, normalize
 import json
 import cv2 as cv
 import socket
@@ -11,6 +12,7 @@ from queue import Queue
 import numpy as np
 import threading
 import math
+
 
 class SignClassifier(nn.Module):
 
@@ -30,27 +32,30 @@ class SignClassifier(nn.Module):
         x = self.dropout2(self.relu(self.ff2(x)))
         return self.ff3(x)
 
-model = torch.load('PointDetect_3d.pth')
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model = torch.load('PointDetect_3d.pth', map_location=torch.device(device))
 token_list = []
 with open(os.path.join(train_dir, "../tokenlist.json"), "r") as f:
     token_list = json.loads(f.read())
 print(token_list)
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 start_time = 0
 last_token = "@"
 sentence = "@"
 ACTIVATE_RATE = 60 / 100
 
-def handlePack(pack,image):
+
+def handlePack(pack, image):
     global last_token, start_time, sentence, ACTIVATE_RATE
 
-    a=[[0,0,0]]*21 if pack['pose']['leftHand']==None else pack['pose']['leftHand']
-    a=normalize(a)
+    a = [[
+        0, 0, 0
+    ]] * 21 if pack['pose']['leftHand'] == None else pack['pose']['leftHand']
+    a = normalize(a)
     data = torch.Tensor([a]).to(device)
     res = F.softmax(model(data))
     a = res.argmax(1)
-
 
     image = np.zeros((800, 1200, 3), np.uint8)
 
@@ -71,8 +76,8 @@ def handlePack(pack,image):
         return image
 
     if res[0][a[0]] >= ACTIVATE_RATE:
-        now = pack['time']*1000
-        print(now,start_time)
+        now = pack['time'] * 1000
+        print(now, start_time)
         if start_time == 0 or not last_token == a[0]:
             start_time = now
             last_token = a[0]
@@ -89,7 +94,6 @@ def handlePack(pack,image):
     cv.putText(image, f"{sentence[1:]}", (400, 200), cv.FONT_HERSHEY_SIMPLEX,
                2, (0, 0, 255), 2)
     return image
-
 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -142,11 +146,10 @@ serverThread.start()
 while True:
     if not msgQueue.empty():
         pack = msgQueue.get()
-        image=handlePack(pack,image)
+        image = handlePack(pack, image)
     cv.imshow("recv", image)
 
     if cv.waitKey(1) & 0xFF == ord('w'):
         stopServer = True
         break
 cv.destroyAllWindows()
-

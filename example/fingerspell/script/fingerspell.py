@@ -1,4 +1,5 @@
 import os
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import cv2 as cv
 from utils import extract_landmarks, draw_styled_landmarks, normalize, train_dir, train_detect
@@ -39,6 +40,7 @@ def start_listen(detect):
         camera.release()
         cv.destroyAllWindows()
 
+
 class SignClassifier(nn.Module):
 
     def __init__(self):
@@ -57,12 +59,13 @@ class SignClassifier(nn.Module):
         x = self.dropout2(self.relu(self.ff2(x)))
         return self.ff3(x)
 
-model = torch.load('PointDetect_3d.pth')
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model = torch.load('PointDetect_3d.pth', map_location=torch.device(device))
 token_list = []
 with open(os.path.join(train_dir, "../tokenlist.json"), "r") as f:
     token_list = json.loads(f.read())
 print(token_list)
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
 import math
 from datetime import datetime
 

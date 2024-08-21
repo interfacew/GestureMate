@@ -10,3 +10,4 @@ package-lock.json
 package.json
 dataset
 error.log
+*.tags
