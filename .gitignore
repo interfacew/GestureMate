@@ -8,3 +8,5 @@ test
 node_modules
 package-lock.json
 package.json
+dataset
+error.log

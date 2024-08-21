@@ -1,0 +1,80 @@
+[
+    {
+        "type": "detect",
+        "id": "detectleft",
+        "bodyPart": [
+            "leftHand"
+        ],
+        "frames": 1,
+        "start": true,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "closetimeout"
+            },
+            {
+                "operate": "start",
+                "id": "detectleft"
+            },
+            {
+                "operate": "start",
+                "id": "socket1"
+            }
+        ]
+    },
+    {
+        "type": "timeout",
+        "id": "closetimeout",
+        "timeout": 500,
+        "start": true,
+        "nextTasks": [
+            {
+                "operate": "stop",
+                "id": "socket1"
+            },
+            {
+                "operate": "stop",
+                "id": "socket2"
+            }
+        ]
+    },
+    {
+        "type": "socketsend",
+        "id": "socket1",
+        "ip": "localhost",
+        "port": 8888,
+        "extra": 1,
+        "start": true
+    },
+    {
+        "type": "detect",
+        "id": "detectright",
+        "bodyPart": [
+            "rightHand"
+        ],
+        "frames": 1,
+        "start": true,
+        "nextTasks": [
+            {
+                "operate": "start",
+                "id": "closetimeout"
+            },
+            {
+                "operate": "start",
+                "id": "detectright"
+            },
+            {
+                "operate": "start",
+                "id": "socket2"
+            }
+        ]
+    },
+    {
+        "type": "socketsend",
+        "id": "socket2",
+        "ip": "localhost",
+        "port": 8888,
+        "extra": 2,
+        "start": true
+    }
+]
