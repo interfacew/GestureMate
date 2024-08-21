@@ -1,9 +1,11 @@
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import cv2 as cv
 from utils import extract_landmarks, draw_styled_landmarks, normalize, train_dir, train_detect
 import mediapipe.python.solutions as sol
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
-import os
 import json
 
 
@@ -37,13 +39,29 @@ def start_listen(detect):
         camera.release()
         cv.destroyAllWindows()
 
+class SignClassifier(nn.Module):
+
+    def __init__(self):
+        super(SignClassifier, self).__init__()
+        self.ff1 = nn.Linear(21 * 3, 1024)
+        self.ff2 = nn.Linear(1024, 512)
+        self.ff3 = nn.Linear(512, 28)
+        self.relu = nn.ReLU()
+        self.flatten = nn.Flatten()
+        self.dropout1 = nn.Dropout(0.2)
+        self.dropout2 = nn.Dropout(0.2)
+
+    def forward(self, x):
+        x = self.flatten(x)
+        x = self.dropout1(self.relu(self.ff1(x)))
+        x = self.dropout2(self.relu(self.ff2(x)))
+        return self.ff3(x)
 
 model = torch.load('PointDetect_3d.pth')
 token_list = []
-train_data = []
 with open(os.path.join(train_dir, "../tokenlist.json"), "r") as f:
-    train_data = json.loads(f.read())
-
+    token_list = json.loads(f.read())
+print(token_list)
 device = 'cuda'
 import math
 from datetime import datetime

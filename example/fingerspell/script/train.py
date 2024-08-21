@@ -29,7 +29,7 @@ if not os.path.exists(train_detect):
 token_list = sorted(os.listdir(train_dir))
 print(token_list)
 with open(os.path.join(train_dir, "../tokenlist.json"), "w") as f:
-    f.write(str(token_list))
+    f.write(json.dumps(token_list))
 
 if not os.path.exists(os.path.join(train_dir, "../datas_3d.json")):
     datas = []
@@ -63,7 +63,7 @@ if not os.path.exists(os.path.join(train_dir, "../datas_3d.json")):
         print(f"image for {token}: total {len(files)}, detect {cnt}")
 
     with open(os.path.join(train_dir, "../datas_3d.json"), "w") as f:
-        f.write(str(datas))
+        f.write(json.dumps(datas))
 
 train_data = []
 with open(os.path.join(train_dir, "../datas_3d.json"), "r") as f:
