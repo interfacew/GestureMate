@@ -6,6 +6,7 @@
 
 - 克隆仓库到本地
 - 运行`conda create -n gesturemate python=3.11`（可选）
+- 运行`pip install -r requirement.txt`（可选，主程序会自动检测环境内是否包含项目所需库，如果未检测到会进行自动下载）
 - 首次运行`python Main.py`会在`./data/`目录下生成一个`config.json`并下载所需的依赖
 - 编写合适的`config.json`，详情见[任务编写](#任务编写)
 - 可以运行`python GetPoseJson.py`帮助你生成在`config.json`里可能用到的**存放姿势数据的 json 文件**
@@ -15,14 +16,14 @@
 
 ## Demo
 
-本项目提供了两个`demo`，分别是一个手势控制的计算器和一个`socketHook`的实例\
+本项目提供了三个`demo`，分别是一个手势控制的计算器和两个`socketHook`的实例\
 位于`example`文件夹下\
 
 ### 计算器
 
-你可以使用`python Main.py --data=".\example\data_example"`运行计算器
-
-在系统识别到左手大约2秒后，它会自动启动计算器程序。\
+这是一个通过手势识别进行计算器操作的`demo`\
+你可以使用`python Main.py --data=".\example\data_example"`运行计算器\
+在系统识别到左手大约 2 秒后，它会自动启动计算器程序。\
 用户可以通过将左手手心面向镜头，比出数字进行数字输入。\
 对于运算法则的输入则会根据用户右手手指的指向与手心方向进行判断：\
 在手心朝前时，指向上方表示加法，指向左方表示乘法。而手心朝向后方时则同理表示减法和除法。
@@ -31,11 +32,22 @@
 
 ### `socketHook`
 
+#### 简单的 `socket` 服务器
+
+这是一个能实时向指定服务器传输当前识别结果的`demo`\
 在运行此`demo`前，请先运行`python .\example\socket_example\socketserver.py`\
 随后开启第二个终端运行`python Main.py --data=".\example\socket_example"`\
 启动后，当检测到左手或右手时，你会看到`socketserver`显示出的小框里的点，这些是主程序通过`socket`传输过去的东西\
 当右手和左手均不在范围内时，传输会停止，`socketserver`显示出的小框中应不发生变化\
 同时`socketserver`程序会打印出收到的时间戳与连接/断开时的日志
+
+#### `fingerspell`
+
+这是一个`ASL`单字幕手语识别翻译`demo`\
+环境额外需求：请安装`script/requirements.txt`里的包\
+先运行`script/train.py`训练模型（可选，`demo`内自带模型）\
+随后运行`script/task.py`启动监听（需配合主程序使用）\
+或运行`script/fingerspell.py`以直接识别（无需启动主程序）
 
 ## 任务编写
 

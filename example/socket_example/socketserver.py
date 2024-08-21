@@ -74,7 +74,7 @@ while True:
                 cv2.circle(image,
                            (math.floor(a[0] * 160), math.floor(a[1] * 90)), 1,
                            (0, 0, 255), 4)
-        cv2.imshow("recv", image)
+    cv2.imshow("recv", image)
 
     if cv2.waitKey(1) & 0xFF == ord('w'):
         stopServer = True
