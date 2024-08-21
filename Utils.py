@@ -86,6 +86,7 @@ def testPackages(download=True):
     flag1 = False
     flag2 = False
     flag3 = False
+    flag4 = False
     try:
         import mediapipe
     except ModuleNotFoundError:
@@ -104,16 +105,24 @@ def testPackages(download=True):
         print("Missing package PyAutoGUI")
         flag3 = True
 
+    try:
+        import numpy
+    except ModuleNotFoundError:
+        print("Missing package numpy")
+        flag4 = True
+
     if download and (flag1 or flag2 or flag3):
         try:
             print("Downloading" + (" mediapipe==0.10.14" if flag1 else "") +
                   (" opencv-python==4.10.0.84" if flag2 else "") +
-                  (" PyAutoGUI==0.9.54" if flag3 else ""))
+                  (" PyAutoGUI==0.9.54" if flag3 else "") +
+                  (" numpy==1.26.4" if flag4 else ""))
             res = subprocess.run(
                 ['pip', 'install', '-i', MIRROR] +
                 (['mediapipe==0.10.14'] if flag1 else []) +
                 (['opencv-python==4.10.0.84'] if flag2 else []) +
-                (['PyAutoGUI==0.9.54'] if flag3 else []))
+                (['PyAutoGUI==0.9.54'] if flag3 else []) +
+                (['numpy==1.26.4'] if flag4 else []))
         except OSError as e:
             print(f"Download Packages Error: {e}")
         if res.returncode != 0:
