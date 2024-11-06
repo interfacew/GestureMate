@@ -43,7 +43,7 @@
 
 #### `fingerspell`
 
-这是一个`ASL`单字幕手语识别翻译`demo`\
+这是一个`ASL`单字母手语识别翻译`demo`\
 环境额外需求：请安装`script/requirements.txt`里的包\
 先运行`script/train.py`训练模型（可选，`demo`内自带模型）\
 随后运行`script/task.py`启动监听（需配合主程序使用）\
